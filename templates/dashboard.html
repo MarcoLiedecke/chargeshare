@@ -268,14 +268,8 @@
                         </svg>
                         <h2 class="m-0">Find Nearby Chargers</h2>
                     </div>
-                    <div class="map-container">
-                        <div class="text-center">
-                            <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M30 5C19.5 5 11 13.5 11 24C11 39 30 55 30 55C30 55 49 39 49 24C49 13.5 40.5 5 30 5ZM30 31C26.1 31 23 27.9 23 24C23 20.1 26.1 17 30 17C33.9 17 37 20.1 37 24C37 27.9 33.9 31 30 31Z" fill="var(--cs-green-light)"/>
-                            </svg>
-                            <p>Interactive map will be displayed here</p>
-                            <p class="text-muted">This is a placeholder for the actual map integration</p>
-                        </div>
+                    <div class="map-container" id="map">
+                        <!-- Map will be loaded here -->
                     </div>
                 </div>
 
@@ -476,7 +470,186 @@
 </div>
 {% endblock %}
 
+{% block additional_styles %}
+    .dashboard-container {
+        margin-top: 2rem;
+    }
+    
+    .sidebar {
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        padding: 1.5rem;
+        position: sticky;
+        top: 2rem;
+    }
+    
+    .sidebar-nav {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .sidebar-link {
+        display: flex;
+        align-items: center;
+        padding: 0.75rem 1rem;
+        border-radius: 8px;
+        color: #333;
+        text-decoration: none;
+        transition: all 0.2s ease;
+    }
+    
+    .sidebar-link:hover {
+        background-color: var(--cs-grey-light);
+    }
+    
+    .sidebar-link.active {
+        background-color: var(--cs-green-light);
+        color: var(--cs-green-dark);
+        font-weight: 500;
+    }
+    
+    .sidebar-link svg {
+        margin-right: 0.75rem;
+        width: 20px;
+        height: 20px;
+    }
+    
+    .dashboard-card {
+        height: 100%;
+    }
+    
+    .stat-card {
+        border-radius: 10px;
+        padding: 1.5rem;
+        height: 100%;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .stat-card.chargers {
+        background-color: var(--cs-green-light);
+        color: var(--cs-green-dark);
+    }
+    
+    .stat-card.reservations {
+        background-color: var(--cs-green);
+        color: white;
+    }
+    
+    .stat-card.earnings {
+        background-color: var(--cs-green-dark);
+        color: white;
+    }
+    
+    .stat-card .stat-icon {
+        position: absolute;
+        right: -15px;
+        bottom: -15px;
+        opacity: 0.15;
+        font-size: 5rem;
+    }
+    
+    .map-container {
+        height: 400px;
+        width: 100%;
+        background-color: var(--cs-grey-light);
+        border-radius: 10px;
+        margin-bottom: 2rem;
+    }
+    
+    .table-container {
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .badge {
+        padding: 0.5rem 0.75rem;
+        border-radius: 50px;
+    }
+    
+    .section-title {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1.5rem;
+    }
+    
+    .section-title svg {
+        margin-right: 0.75rem;
+        width: 24px;
+        height: 24px;
+    }
+    
+    #addChargerModal .modal-header {
+        background-color: var(--cs-green);
+        color: white;
+    }
+    
+    /* OpenStreetMap Styles */
+    .charger-marker {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        background-color: var(--cs-green);
+        border-radius: 50%;
+        border: 2px solid white;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        color: white;
+    }
+    
+    .charger-marker svg {
+        width: 20px;
+        height: 20px;
+    }
+    
+    .charger-popup .charger-type {
+        display: inline-block;
+        padding: 2px 6px;
+        margin-bottom: 8px;
+        border-radius: 4px;
+        background-color: var(--cs-grey-light);
+        font-size: 12px;
+        font-weight: bold;
+    }
+    
+    .charger-popup .charger-price {
+        font-weight: bold;
+        color: var(--cs-green);
+    }
+    
+    .charger-popup .charger-power {
+        margin-top: 6px;
+        font-weight: 500;
+    }
+    
+    .charger-popup .charger-rating {
+        color: orange;
+        margin-top: 6px;
+    }
+    
+    .charger-popup .charger-actions {
+        margin-top: 10px;
+    }
+{% endblock %}
+
+{% block head %}
+{{ super() }}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+     crossorigin=""/>
+{% endblock %}
+
 {% block scripts %}
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+     crossorigin=""></script>
+
 <script>
     // Sidebar link active state
     const sidebarLinks = document.querySelectorAll('.sidebar-link');
@@ -519,6 +692,151 @@
         setTimeout(() => {
             window.location.reload();
         }, 500);
+    });
+    
+    // Initialize OpenStreetMap
+    document.addEventListener('DOMContentLoaded', function() {
+        // Create map centered on Copenhagen, Denmark
+        const map = L.map('map').setView([55.6761, 12.5683], 12);
+        
+        // Add OpenStreetMap tiles
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+        
+        // Custom icon for charger markers
+        function createChargerMarker(charger) {
+            // Create custom HTML element for marker
+            const markerHtml = `
+                <div class="charger-marker">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M11 21l-1-8.4h-3.5l7-12.6 1 8.4h3.5l-7 12.6z" fill="white"/>
+                    </svg>
+                </div>
+            `;
+            
+            const icon = L.divIcon({
+                html: markerHtml,
+                className: '',
+                iconSize: [36, 36],
+                iconAnchor: [18, 36]
+            });
+            
+            // Create marker with custom icon
+            const marker = L.marker([charger.latitude, charger.longitude], {icon: icon});
+            
+            // Add popup with charger info
+            const popupContent = `
+                <div class="charger-popup">
+                    <h5>${charger.name}</h5>
+                    <div class="charger-type">${charger.charger_type}</div>
+                    <div class="charger-address">${charger.address}</div>
+                    <div class="charger-power">${charger.power_output} kW</div>
+                    <div class="charger-price">kr ${charger.price_per_hour.toFixed(2)}/hour</div>
+                    <div class="charger-rating">★★★★☆ (${charger.rating})</div>
+                    <div class="charger-actions">
+                        <button class="btn btn-sm btn-primary reserve-btn" data-charger-id="${charger.id}">Reserve</button>
+                    </div>
+                </div>
+            `;
+            
+            marker.bindPopup(popupContent);
+            return marker;
+        }
+        
+        // Sample charger data - this would be fetched from the server in a real app
+        const sampleChargers = [
+            {
+                id: 1,
+                name: "Central Station Charger",
+                address: "Bernstorffsgade 16, 1577 København",
+                latitude: 55.6728,
+                longitude: 12.5646,
+                charger_type: "Type 2",
+                power_output: 22,
+                price_per_hour: 45.0,
+                rating: 4.5
+            },
+            {
+                id: 2,
+                name: "Nørreport Fast Charger",
+                address: "Frederiksborggade 18, 1360 København",
+                latitude: 55.6833,
+                longitude: 12.5714,
+                charger_type: "CCS",
+                power_output: 150,
+                price_per_hour: 95.0,
+                rating: 4.8
+            },
+            {
+                id: 3,
+                name: "Østerbro Residential",
+                address: "Jagtvej 88, 2100 København",
+                latitude: 55.6986,
+                longitude: 12.5542,
+                charger_type: "Type 2",
+                power_output: 11,
+                price_per_hour: 32.0,
+                rating: 4.2
+            },
+            {
+                id: 4,
+                name: "Amager Beach Charger",
+                address: "Amager Strandvej 110, 2300 København",
+                latitude: 55.6584,
+                longitude: 12.6318,
+                charger_type: "CHAdeMO",
+                power_output: 50,
+                price_per_hour: 65.0,
+                rating: 4.0
+            },
+            {
+                id: 5,
+                name: "Frederiksberg Gardens",
+                address: "Pile Allé, 2000 Frederiksberg",
+                latitude: 55.6722,
+                longitude: 12.5258,
+                charger_type: "Tesla",
+                power_output: 16.5,
+                price_per_hour: 55.0,
+                rating: 4.7
+            }
+        ];
+        
+        // Add chargers to map
+        sampleChargers.forEach(charger => {
+            createChargerMarker(charger).addTo(map);
+        });
+        
+        // Get user location and zoom to it
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(position => {
+                const userLat = position.coords.latitude;
+                const userLng = position.coords.longitude;
+                
+                // Add user location marker
+                L.marker([userLat, userLng], {
+                    icon: L.divIcon({
+                        html: '<div style="background-color: #4285F4; width: 16px; height: 16px; border-radius: 50%; border: 2px solid white;"></div>',
+                        className: '',
+                        iconSize: [16, 16],
+                        iconAnchor: [8, 8]
+                    })
+                }).addTo(map).bindPopup('Your location');
+                
+                // Center map on user location
+                map.setView([userLat, userLng], 13);
+            });
+        }
+        
+        // Add click listeners for reserve buttons
+        document.addEventListener('click', function(e) {
+            if (e.target && e.target.classList.contains('reserve-btn')) {
+                const chargerId = e.target.getAttribute('data-charger-id');
+                alert(`Reservation interface for charger ${chargerId} would open here.`);
+            }
+        });
     });
 </script>
 {% endblock %}

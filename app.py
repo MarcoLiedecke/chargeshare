@@ -82,7 +82,22 @@ def logout():
 def dashboard():
     user_chargers = Charger.query.filter_by(owner_id=current_user.id).all()
     user_reservations = Reservation.query.filter_by(user_id=current_user.id).all()
-    return render_template('dashboard.html', chargers=user_chargers, reservations=user_reservations)
+    
+    # Calculate total earnings
+    total_earnings = 0
+    for charger in user_chargers:
+        completed_reservations = Reservation.query.filter_by(
+            charger_id=charger.id,
+            status='completed'
+        ).all()
+        
+        for reservation in completed_reservations:
+            total_earnings += reservation.total_price
+    
+    return render_template('dashboard.html', 
+                          chargers=user_chargers, 
+                          reservations=user_reservations,
+                          total_earnings=total_earnings)
 
 # Charger routes
 @app.route('/chargers', methods=['GET'])
@@ -269,7 +284,230 @@ def api_login():
     # In a real app, you would generate and return a token here
     return jsonify({'user_id': user.id, 'name': user.name, 'email': user.email})
 
+def create_sample_data():
+    """Create sample data if the database is empty"""
+    if User.query.first():
+        # Database already has data
+        return
+    
+    # Create sample users
+    users = [
+        {
+            'name': 'John Doe',
+            'email': 'john@example.com',
+            'password': 'password123',
+            'phone': '+45 12345678'
+        },
+        {
+            'name': 'Alice Smith',
+            'email': 'alice@example.com',
+            'password': 'password123',
+            'phone': '+45 87654321'
+        },
+        {
+            'name': 'Bob Johnson',
+            'email': 'bob@example.com',
+            'password': 'password123',
+            'phone': '+45 23456789'
+        },
+        {
+            'name': 'Emma Nielsen',
+            'email': 'emma@example.com',
+            'password': 'password123',
+            'phone': '+45 34567890'
+        },
+        {
+            'name': 'Michael Hansen',
+            'email': 'michael@example.com',
+            'password': 'password123',
+            'phone': '+45 45678901'
+        }
+    ]
+    
+    created_users = []
+    for user_data in users:
+        user = User(
+            name=user_data['name'],
+            email=user_data['email'],
+            phone=user_data['phone']
+        )
+        user.set_password(user_data['password'])
+        db.session.add(user)
+        created_users.append(user)
+    
+    db.session.commit()
+    
+    # Create sample chargers
+    chargers = [
+        {
+            'owner': created_users[0],
+            'name': 'Central Station Charger',
+            'address': 'Bernstorffsgade 16, 1577 København',
+            'latitude': 55.6728,
+            'longitude': 12.5646,
+            'charger_type': 'Type 2',
+            'power_output': 22.0,
+            'price_per_hour': 45.0
+        },
+        {
+            'owner': created_users[1],
+            'name': 'Nørreport Fast Charger',
+            'address': 'Frederiksborggade 18, 1360 København',
+            'latitude': 55.6833,
+            'longitude': 12.5714,
+            'charger_type': 'CCS',
+            'power_output': 150.0,
+            'price_per_hour': 95.0
+        },
+        {
+            'owner': created_users[2],
+            'name': 'Østerbro Residential',
+            'address': 'Jagtvej 88, 2100 København',
+            'latitude': 55.6986,
+            'longitude': 12.5542,
+            'charger_type': 'Type 2',
+            'power_output': 11.0,
+            'price_per_hour': 32.0
+        },
+        {
+            'owner': created_users[3],
+            'name': 'Amager Beach Charger',
+            'address': 'Amager Strandvej 110, 2300 København',
+            'latitude': 55.6584,
+            'longitude': 12.6318,
+            'charger_type': 'CHAdeMO',
+            'power_output': 50.0,
+            'price_per_hour': 65.0
+        },
+        {
+            'owner': created_users[4],
+            'name': 'Frederiksberg Gardens',
+            'address': 'Pile Allé, 2000 Frederiksberg',
+            'latitude': 55.6722,
+            'longitude': 12.5258,
+            'charger_type': 'Tesla',
+            'power_output': 16.5,
+            'price_per_hour': 55.0
+        }
+    ]
+    
+    created_chargers = []
+    for charger_data in chargers:
+        charger = Charger(
+            owner_id=charger_data['owner'].id,
+            name=charger_data['name'],
+            address=charger_data['address'],
+            latitude=charger_data['latitude'],
+            longitude=charger_data['longitude'],
+            charger_type=charger_data['charger_type'],
+            power_output=charger_data['power_output'],
+            price_per_hour=charger_data['price_per_hour'],
+            is_active=True
+        )
+        db.session.add(charger)
+        created_chargers.append(charger)
+    
+    db.session.commit()
+    
+    # Create sample reservations
+    from datetime import timedelta
+    
+    reservations = [
+        {
+            'user': created_users[1],
+            'charger': created_chargers[0],
+            'start_time': datetime.utcnow() - timedelta(days=5, hours=2),
+            'end_time': datetime.utcnow() - timedelta(days=5),
+            'status': 'completed'
+        },
+        {
+            'user': created_users[2],
+            'charger': created_chargers[0],
+            'start_time': datetime.utcnow() - timedelta(days=2, hours=3),
+            'end_time': datetime.utcnow() - timedelta(days=2, hours=1),
+            'status': 'completed'
+        },
+        {
+            'user': created_users[3],
+            'charger': created_chargers[1],
+            'start_time': datetime.utcnow() - timedelta(days=1, hours=4),
+            'end_time': datetime.utcnow() - timedelta(days=1, hours=2),
+            'status': 'completed'
+        },
+        {
+            'user': created_users[0],
+            'charger': created_chargers[2],
+            'start_time': datetime.utcnow() + timedelta(days=1, hours=10),
+            'end_time': datetime.utcnow() + timedelta(days=1, hours=12),
+            'status': 'confirmed'
+        },
+        {
+            'user': created_users[4],
+            'charger': created_chargers[3],
+            'start_time': datetime.utcnow() + timedelta(hours=5),
+            'end_time': datetime.utcnow() + timedelta(hours=7),
+            'status': 'confirmed'
+        }
+    ]
+    
+    created_reservations = []
+    for res_data in reservations:
+        duration_hours = (res_data['end_time'] - res_data['start_time']).total_seconds() / 3600
+        total_price = duration_hours * res_data['charger'].price_per_hour
+        
+        reservation = Reservation(
+            user_id=res_data['user'].id,
+            charger_id=res_data['charger'].id,
+            start_time=res_data['start_time'],
+            end_time=res_data['end_time'],
+            total_price=total_price,
+            status=res_data['status']
+        )
+        db.session.add(reservation)
+        created_reservations.append(reservation)
+    
+    db.session.commit()
+    
+    # Create sample ratings
+    ratings = [
+        {
+            'reservation': created_reservations[0],
+            'rater': created_users[1],  # User who used the charger
+            'rated': created_users[0],  # Charger owner
+            'rating': 5,
+            'comment': 'Great charger, very convenient location!'
+        },
+        {
+            'reservation': created_reservations[1],
+            'rater': created_users[2],
+            'rated': created_users[0],
+            'rating': 4,
+            'comment': 'Good experience, but charger was a bit slow.'
+        },
+        {
+            'reservation': created_reservations[2],
+            'rater': created_users[3],
+            'rated': created_users[1],
+            'rating': 5,
+            'comment': 'Super fast charging, will use again!'
+        }
+    ]
+    
+    for rating_data in ratings:
+        rating = Rating(
+            reservation_id=rating_data['reservation'].id,
+            rater_id=rating_data['rater'].id,
+            rated_id=rating_data['rated'].id,
+            rating=rating_data['rating'],
+            comment=rating_data['comment']
+        )
+        db.session.add(rating)
+    
+    db.session.commit()
+    print('Sample data created successfully!')
+
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
+        create_sample_data()
     app.run(debug=True)

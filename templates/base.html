@@ -108,44 +108,46 @@
             overflow: hidden;
         }
         
-        .bg-animation .leaf {
+        .bg-animation .lightning {
             position: absolute;
-            background-color: var(--cs-green-light);
-            opacity: 0.1;
-            border-radius: 50%;
+            opacity: 0.08;
             animation: float 15s infinite ease-in-out;
         }
         
-        .bg-animation .leaf:nth-child(1) {
+        .bg-animation .lightning:nth-child(1) {
             width: 300px;
             height: 300px;
             top: -150px;
             left: -150px;
             animation-delay: 0s;
+            transform: rotate(15deg);
         }
         
-        .bg-animation .leaf:nth-child(2) {
+        .bg-animation .lightning:nth-child(2) {
             width: 400px;
             height: 400px;
             top: 30%;
             right: -200px;
             animation-delay: 1s;
+            transform: rotate(-10deg);
         }
         
-        .bg-animation .leaf:nth-child(3) {
+        .bg-animation .lightning:nth-child(3) {
             width: 250px;
             height: 250px;
             bottom: -100px;
             left: 20%;
             animation-delay: 2s;
+            transform: rotate(5deg);
         }
         
-        .bg-animation .leaf:nth-child(4) {
+        .bg-animation .lightning:nth-child(4) {
             width: 200px;
             height: 200px;
             top: 15%;
             left: 30%;
             animation-delay: 3s;
+            transform: rotate(-5deg);
         }
         
         @keyframes float {
@@ -170,10 +172,18 @@
 <body>
     <!-- Background Animation -->
     <div class="bg-animation">
-        <div class="leaf"></div>
-        <div class="leaf"></div>
-        <div class="leaf"></div>
-        <div class="leaf"></div>
+        <svg class="lightning lightning-1" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M11 21l-1-8.4h-3.5l7-12.6 1 8.4h3.5l-7 12.6z" fill="var(--cs-green)"/>
+        </svg>
+        <svg class="lightning lightning-2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M11 21l-1-8.4h-3.5l7-12.6 1 8.4h3.5l-7 12.6z" fill="var(--cs-green)"/>
+        </svg>
+        <svg class="lightning lightning-3" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M11 21l-1-8.4h-3.5l7-12.6 1 8.4h3.5l-7 12.6z" fill="var(--cs-green)"/>
+        </svg>
+        <svg class="lightning lightning-4" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M11 21l-1-8.4h-3.5l7-12.6 1 8.4h3.5l-7 12.6z" fill="var(--cs-green)"/>
+        </svg>
     </div>
 
     <!-- Navigation -->
