@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - ChargeShare</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+    <style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 48px 0 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+        }
+        
+        .sidebar-sticky {
+            position: relative;
+            top: 0;
+            height: calc(100vh - 48px);
+            padding-top: .5rem;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+        
+        .navbar-brand {
+            padding-top: .75rem;
+            padding-bottom: .75rem;
+            font-size: 1rem;
+            background-color: rgba(0, 0, 0, .25);
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .25);
+        }
+        
+        .card {
+            margin-bottom: 1.5rem;
+        }
+        
+        .map-container {
+            height: 400px;
+            width: 100%;
+            background-color: #e9ecef;
+            border-radius: 0.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+        <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#">ChargeShare</a>
+        <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="navbar-nav">
+            <div class="nav-item text-nowrap">
+                <a class="nav-link px-3" href="{{ url_for('logout') }}">Sign out</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container-fluid">
+        <div class="row">
+            <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+                <div class="position-sticky pt-3 sidebar-sticky">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#">
+                                <i class="bi bi-speedometer2 me-2"></i>
+                                Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#my-chargers">
+                                <i class="bi bi-ev-station-fill me-2"></i>
+                                My Chargers
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#my-reservations">
+                                <i class="bi bi-calendar-check me-2"></i>
+                                My Reservations
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#find-chargers">
+                                <i class="bi bi-geo-alt me-2"></i>
+                                Find Chargers
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#earnings">
+                                <i class="bi bi-cash-coin me-2"></i>
+                                Earnings
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#profile">
+                                <i class="bi bi-person-circle me-2"></i>
+                                Profile
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">Dashboard</h1>
+                    <div class="btn-toolbar mb-2 mb-md-0">
+                        <div class="btn-group me-2">
+                            <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#addChargerModal">
+                                <i class="bi bi-plus-circle"></i> Add Charger
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Overview Cards -->
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card text-white bg-primary">
+                            <div class="card-body">
+                                <h5 class="card-title">My Chargers</h5>
+                                <p class="card-text display-4">{{ chargers|length }}</p>
+                                <p class="card-text">Active charging stations</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card text-white bg-success">
+                            <div class="card-body">
+                                <h5 class="card-title">My Reservations</h5>
+                                <p class="card-text display-4">{{ reservations|length }}</p>
+                                <p class="card-text">Active and upcoming reservations</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card text-dark bg-warning">
+                            <div class="card-body">
+                                <h5 class="card-title">Total Earnings</h5>
+                                <p class="card-text display-4">kr {{ '%0.2f'|format(total_earnings|default(0)) }}</p>
+                                <p class="card-text">Earnings from your chargers</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Find Chargers Map Section -->
+                <div class="my-4" id="find-chargers">
+                    <h2>Find Nearby Chargers</h2>
+                    <div class="map-container">
+                        <div class="text-center">
+                            <i class="bi bi-map" style="font-size: 3rem;"></i>
+                            <p>Interactive map will be displayed here</p>
+                            <p class="text-muted">This is a placeholder for the actual map integration</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- My Chargers Section -->
+                <div class="my-4" id="my-chargers">
+                    <h2>My Chargers</h2>
+                    {% if chargers %}
+                    <div class="table-responsive">
+                        <table class="table table-striped table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Address</th>
+                                    <th>Type</th>
+                                    <th>Power</th>
+                                    <th>Price</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for charger in chargers %}
+                                <tr>
+                                    <td>{{ charger.name }}</td>
+                                    <td>{{ charger.address }}</td>
+                                    <td>{{ charger.charger_type }}</td>
+                                    <td>{{ charger.power_output }} kW</td>
+                                    <td>kr {{ '%0.2f'|format(charger.price_per_hour) }}/hr</td>
+                                    <td>
+                                        {% if charger.is_active %}
+                                        <span class="badge bg-success">Active</span>
+                                        {% else %}
+                                        <span class="badge bg-secondary">Inactive</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-primary">Edit</button>
+                                        <button class="btn btn-sm btn-outline-danger">Disable</button>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <div class="alert alert-info">
+                        <p>You haven't added any chargers yet. <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addChargerModal">Add your first charger</button></p>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- My Reservations Section -->
+                <div class="my-4" id="my-reservations">
+                    <h2>My Reservations</h2>
+                    {% if reservations %}
+                    <div class="table-responsive">
+                        <table class="table table-striped table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Charger</th>
+                                    <th>Start Time</th>
+                                    <th>End Time</th>
+                                    <th>Duration</th>
+                                    <th>Total Price</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for reservation in reservations %}
+                                <tr>
+                                    <td>{{ reservation.charger.name }}</td>
+                                    <td>{{ reservation.start_time.strftime('%Y-%m-%d %H:%M') }}</td>
+                                    <td>{{ reservation.end_time.strftime('%Y-%m-%d %H:%M') }}</td>
+                                    <td>{{ '%0.1f'|format(reservation.get_duration_hours()) }} hours</td>
+                                    <td>kr {{ '%0.2f'|format(reservation.total_price) }}</td>
+                                    <td>
+                                        {% if reservation.status == 'confirmed' %}
+                                        <span class="badge bg-primary">Confirmed</span>
+                                        {% elif reservation.status == 'completed' %}
+                                        <span class="badge bg-success">Completed</span>
+                                        {% elif reservation.status == 'pending' %}
+                                        <span class="badge bg-warning">Pending</span>
+                                        {% elif reservation.status == 'cancelled' %}
+                                        <span class="badge bg-danger">Cancelled</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if reservation.status == 'confirmed' %}
+                                        <form action="{{ url_for('complete_reservation', reservation_id=reservation.id) }}" method="POST" style="display: inline;">
+                                            <button type="submit" class="btn btn-sm btn-success">Complete</button>
+                                        </form>
+                                        {% elif reservation.status == 'completed' %}
+                                        <button class="btn btn-sm btn-outline-secondary">Rate</button>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <div class="alert alert-info">
+                        <p>You don't have any active reservations. <a href="#find-chargers" class="alert-link">Find a charger</a> to make a reservation.</p>
+                    </div>
+                    {% endif %}
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Add Charger Modal -->
+    <div class="modal fade" id="addChargerModal" tabindex="-1" aria-labelledby="addChargerModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addChargerModalLabel">Add New Charger</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addChargerForm">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="chargerName" class="form-label">Charger Name</label>
+                                <input type="text" class="form-control" id="chargerName" name="name" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="chargerType" class="form-label">Charger Type</label>
+                                <select class="form-select" id="chargerType" name="charger_type" required>
+                                    <option value="">Select type</option>
+                                    <option value="Type 2">Type 2</option>
+                                    <option value="CCS">CCS</option>
+                                    <option value="CHAdeMO">CHAdeMO</option>
+                                    <option value="Tesla">Tesla</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="address" class="form-label">Address</label>
+                            <input type="text" class="form-control" id="address" name="address" required>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="latitude" class="form-label">Latitude</label>
+                                <input type="number" step="any" class="form-control" id="latitude" name="latitude" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="longitude" class="form-label">Longitude</label>
+                                <input type="number" step="any" class="form-control" id="longitude" name="longitude" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="powerOutput" class="form-label">Power Output (kW)</label>
+                                <input type="number" step="0.1" class="form-control" id="powerOutput" name="power_output" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="pricePerHour" class="form-label">Price per Hour (DKK)</label>
+                                <input type="number" step="0.01" class="form-control" id="pricePerHour" name="price_per_hour" required>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Availability</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="availableWeekdays" checked>
+                                <label class="form-check-label" for="availableWeekdays">Weekdays</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="availableWeekends" checked>
+                                <label class="form-check-label" for="availableWeekends">Weekends</label>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="submitCharger">Add Charger</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Simplified client-side form handling
+        document.getElementById('submitCharger').addEventListener('click', function() {
+            const form = document.getElementById('addChargerForm');
+            
+            // In a real app, you would validate and submit via AJAX
+            // This is a simplified example that just simulates a successful submit
+            alert('Charger added successfully!');
+            
+            // Close the modal
+            var modal = bootstrap.Modal.getInstance(document.getElementById('addChargerModal'));
+            modal.hide();
+            
+            // Refresh the page to show the new charger
+            // In a real app, you would update the DOM instead
+            setTimeout(() => {
+                window.location.reload();
+            }, 500);
+        });
+    </script>
+</body>
+</html>
