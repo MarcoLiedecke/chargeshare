@@ -1,12 +1,8 @@
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
-import sys
-import os
 
-# Add parent directory to path to import db
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from app import db
+from models.database import db
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)

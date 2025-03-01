@@ -1,10 +1,5 @@
 from datetime import datetime
-import sys
-import os
-
-# Add parent directory to path to import db
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from app import db
+from models.database import db
 
 class Rating(db.Model):
     id = db.Column(db.Integer, primary_key=True)

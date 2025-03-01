@@ -1,21 +1,23 @@
 from flask import Flask, request, jsonify, render_template, session, redirect, url_for, flash
-from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from datetime import datetime
 import os
+
+# Import db instance
+from models.database import db
+# Import models
+from models.user import User
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'dev-key-change-in-production')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///chargeshare.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-db = SQLAlchemy(app)
+# Initialize database with app
+db.init_app(app)
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
-
-# Import models after db is defined
-from models.user import User
 from models.charger import Charger
 from models.reservation import Reservation
 from models.rating import Rating
