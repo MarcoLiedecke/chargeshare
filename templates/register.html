@@ -1,156 +1,405 @@
 {% extends "base.html" %}
 
-{% block title %}Register - ChargeShare{% endblock %}
+{% block title %}Opret Konto - ChargeShare{% endblock %}
 
-{% block additional_styles %}
-    .register-container {
-        max-width: 500px;
-        margin: 80px auto;
-    }
-    .card-header {
-        text-align: center;
-        border-radius: 10px 10px 0 0 !important;
-        padding: 20px;
-        background-color: var(--cs-green);
-        color: white;
-    }
-    .register-btn {
-        width: 100%;
-        padding: 10px;
-    }
-    .form-control {
-        padding: 12px;
-        border: 1px solid var(--cs-grey);
-        border-radius: 6px;
-    }
-    .form-control:focus {
-        border-color: var(--cs-green-light);
-        box-shadow: 0 0 0 0.25rem rgba(76, 175, 80, 0.25);
-    }
-    .register-icon {
-        display: flex;
-        justify-content: center;
-        margin-bottom: 1rem;
-    }
-    .register-icon svg {
-        width: 60px;
-        height: 60px;
-        color: white;
-    }
-{% endblock %}
+{% block head_styles %}
+.register-page {
+    min-height: calc(100vh - 300px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 0;
+}
 
-{% block nav_items %}
-<li class="nav-item">
-    <a class="nav-link" href="{{ url_for('index') }}">
-        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M10 2.5L2 8.5V17.5H7V11.5H13V17.5H18V8.5L10 2.5Z" fill="currentColor"/>
-        </svg>
-        Home
-    </a>
-</li>
-{% endblock %}
+.register-card {
+    max-width: 550px;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+}
 
-{% block nav_right %}
-<div class="d-flex">
-    <a href="{{ url_for('login') }}" class="btn btn-outline-primary me-2">
-        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M10 2C8.897 2 8 2.897 8 4C8 5.103 8.897 6 10 6C11.103 6 12 5.103 12 4C12 2.897 11.103 2 10 2ZM10 7C7.794 7 6 8.794 6 11V13H14V11C14 8.794 12.206 7 10 7Z" fill="currentColor"/>
-            <path d="M5 13C3.895 13 3 13.895 3 15V16C3 16.552 3.448 17 4 17H16C16.552 17 17 16.552 17 16V15C17 13.895 16.105 13 15 13H5Z" fill="currentColor"/>
-        </svg>
-        Login
-    </a>
-    <a href="{{ url_for('register') }}" class="btn btn-primary active">
-        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M10 2C8.897 2 8 2.897 8 4C8 5.103 8.897 6 10 6C11.103 6 12 5.103 12 4C12 2.897 11.103 2 10 2ZM10 7C7.794 7 6 8.794 6 11V13H14V11C14 8.794 12.206 7 10 7Z" fill="currentColor"/>
-            <path d="M14 7H16V9H18V11H16V13H14V11H12V9H14V7Z" fill="currentColor"/>
-        </svg>
-        Register
-    </a>
-</div>
+.register-card::before {
+    content: '';
+    position: absolute;
+    top: -50px;
+    right: -50px;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background-color: var(--cs-primary-light);
+    opacity: 0.1;
+    z-index: -1;
+}
+
+.register-card::after {
+    content: '';
+    position: absolute;
+    bottom: -50px;
+    left: -50px;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background-color: var(--cs-secondary-light);
+    opacity: 0.1;
+    z-index: -1;
+}
+
+.register-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.register-card-title {
+    margin-bottom: 8px;
+    color: var(--cs-dark);
+}
+
+.register-card-subtitle {
+    color: var(--cs-gray-800);
+    font-weight: 400;
+}
+
+.form-control {
+    padding: 12px 16px;
+    border-radius: var(--cs-border-radius-sm);
+    border: 1px solid var(--cs-gray-200);
+    transition: var(--cs-transition);
+}
+
+.form-control:focus {
+    border-color: var(--cs-primary);
+    box-shadow: 0 0 0 3px rgba(14, 173, 105, 0.1);
+}
+
+.form-label {
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    color: var(--cs-dark);
+}
+
+.register-btn {
+    width: 100%;
+    padding: 12px;
+    font-weight: 600;
+}
+
+.separator {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 1.5rem 0;
+    color: var(--cs-gray-800);
+}
+
+.separator::before,
+.separator::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid var(--cs-gray-200);
+}
+
+.separator::before {
+    margin-right: 1rem;
+}
+
+.separator::after {
+    margin-left: 1rem;
+}
+
+.social-login {
+    display: flex;
+    gap: 16px;
+}
+
+.social-btn {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    padding: 12px;
+    border-radius: var(--cs-border-radius-sm);
+    background-color: white;
+    border: 1px solid var(--cs-gray-200);
+    color: var(--cs-dark);
+    transition: var(--cs-transition);
+}
+
+.social-btn:hover {
+    background-color: var(--cs-gray-100);
+    transform: translateY(-2px);
+}
+
+.google-btn {
+    color: #DB4437;
+}
+
+.facebook-btn {
+    color: #4267B2;
+}
+
+.register-footer {
+    text-align: center;
+    margin-top: 1.5rem;
+}
+
+.register-footer a {
+    color: var(--cs-primary);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.invalid-feedback {
+    display: none;
+    color: #dc3545;
+    margin-top: 0.25rem;
+}
+
+.password-strength {
+    height: 5px;
+    border-radius: 2.5px;
+    margin-top: 8px;
+    position: relative;
+    overflow: hidden;
+    background-color: var(--cs-gray-200);
+}
+
+.password-strength-meter {
+    height: 100%;
+    border-radius: 2.5px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    transition: width 0.3s ease;
+}
+
+.strength-weak {
+    width: 25%;
+    background-color: #f44336;
+}
+
+.strength-medium {
+    width: 50%;
+    background-color: #ff9800;
+}
+
+.strength-good {
+    width: 75%;
+    background-color: #2196f3;
+}
+
+.strength-strong {
+    width: 100%;
+    background-color: #4caf50;
+}
+
+.password-strength-text {
+    font-size: 0.8rem;
+    margin-top: 0.25rem;
+    text-align: right;
+}
 {% endblock %}
 
 {% block content %}
-<div class="container register-container">
-    <div class="card">
-        <div class="card-header">
-            <div class="register-icon">
-                <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M30 6C25.038 6 21 10.038 21 15C21 19.962 25.038 24 30 24C34.962 24 39 19.962 39 15C39 10.038 34.962 6 30 6ZM30 27C23.37 27 15 30.33 15 37V45H45V37C45 30.33 36.63 27 30 27Z" fill="white"/>
-                    <path d="M42 18H48V24H54V30H48V36H42V30H36V24H42V18Z" fill="white"/>
-                </svg>
+<div class="register-page">
+    <div class="container">
+        <div class="register-card card">
+            <div class="card-body p-4 p-md-5">
+                <div class="register-header">
+                    <svg width="60" height="60" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M11 1L8 12H14L13 23L23 8H15L19 1H11Z" fill="var(--cs-primary)" stroke="var(--cs-primary-dark)" stroke-width="1"/>
+                    </svg>
+                    <h2 class="register-card-title mt-4">Opret en konto</h2>
+                    <p class="register-card-subtitle">Bliv en del af ChargeShare-fællesskabet</p>
+                </div>
+                
+                {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                <div class="alert alert-danger mb-4">
+                    {{ messages[0] }}
+                </div>
+                {% endif %}
+                {% endwith %}
+                
+                <form method="POST" id="register-form">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="name" class="form-label">Fulde navn</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-white"><i class="bi bi-person"></i></span>
+                                <input type="text" class="form-control" id="name" name="name" placeholder="Dit fulde navn" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="email" class="form-label">E-mail</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-white"><i class="bi bi-envelope"></i></span>
+                                <input type="email" class="form-control" id="email" name="email" placeholder="din@email.dk" required>
+                            </div>
+                            <div class="form-text small">Vi deler aldrig din e-mail med andre.</div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="password" class="form-label">Adgangskode</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-white"><i class="bi bi-lock"></i></span>
+                                <input type="password" class="form-control" id="password" name="password" placeholder="Vælg en adgangskode" required>
+                                <button class="btn btn-outline-secondary" type="button" id="toggle-password">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                            </div>
+                            <div class="password-strength">
+                                <div class="password-strength-meter"></div>
+                            </div>
+                            <div class="password-strength-text"></div>
+                            <div class="invalid-feedback" id="password-feedback">Adgangskoden skal være mindst 8 tegn lang.</div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="confirm_password" class="form-label">Bekræft adgangskode</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-white"><i class="bi bi-lock-fill"></i></span>
+                                <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Bekræft adgangskode" required>
+                            </div>
+                            <div class="invalid-feedback" id="confirm-feedback">Adgangskoderne skal være ens.</div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4 form-check">
+                        <input type="checkbox" class="form-check-input" id="terms" name="terms" required>
+                        <label class="form-check-label" for="terms">Jeg accepterer <a href="#" style="color: var(--cs-primary);">vilkår og betingelser</a></label>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary register-btn">Opret konto</button>
+                </form>
+                
+                <div class="separator">Eller tilmeld med</div>
+                
+                <div class="social-login">
+                    <a href="#" class="social-btn google-btn">
+                        <i class="bi bi-google"></i>
+                        Google
+                    </a>
+                    <a href="#" class="social-btn facebook-btn">
+                        <i class="bi bi-facebook"></i>
+                        Facebook
+                    </a>
+                </div>
+                
+                <div class="register-footer">
+                    <p>Har du allerede en konto? <a href="{{ url_for('login') }}">Log ind her</a></p>
+                </div>
             </div>
-            <h2>Create an Account</h2>
-            <p class="mb-0">Join the ChargeShare community</p>
         </div>
-        <div class="card-body p-4">
-            {% with messages = get_flashed_messages() %}
-            {% if messages %}
-            <div class="alert alert-danger">
-                {{ messages[0] }}
-            </div>
-            {% endif %}
-            {% endwith %}
-            
-            <form method="POST">
-                <div class="mb-3">
-                    <label for="name" class="form-label">Full Name</label>
-                    <input type="text" class="form-control" id="name" name="name" required>
-                </div>
-                <div class="mb-3">
-                    <label for="email" class="form-label">Email address</label>
-                    <input type="email" class="form-control" id="email" name="email" required>
-                    <div class="form-text">We'll never share your email with anyone else.</div>
-                </div>
-                <div class="mb-3">
-                    <label for="password" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="password" name="password" required>
-                    <div class="form-text">Password must be at least 8 characters long.</div>
-                </div>
-                <div class="mb-3">
-                    <label for="confirm_password" class="form-label">Confirm Password</label>
-                    <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
-                </div>
-                <div class="mb-3 form-check">
-                    <input type="checkbox" class="form-check-input" id="terms" required>
-                    <label class="form-check-label" for="terms">I agree to the <a href="#" style="color: var(--cs-green);">Terms and Conditions</a></label>
-                </div>
-                <button type="submit" class="btn btn-primary register-btn">Create Account</button>
-            </form>
-            
-            <div class="mt-4 text-center">
-                <p>Already have an account? <a href="{{ url_for('login') }}" class="text-decoration-none" style="color: var(--cs-green);">Login here</a></p>
-            </div>
-        </div>
-    </div>
-    <div class="text-center mt-3">
-        <a href="{{ url_for('index') }}" class="text-decoration-none" style="color: var(--cs-green-dark);">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-right: 4px;">
-                <path d="M15 8H1M1 8L8 15M1 8L8 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            Back to home
-        </a>
     </div>
 </div>
 {% endblock %}
 
 {% block scripts %}
 <script>
-    // Simple client-side password validation
-    document.querySelector('form').addEventListener('submit', function(e) {
-        const password = document.getElementById('password').value;
-        const confirmPassword = document.getElementById('confirm_password').value;
+    document.addEventListener('DOMContentLoaded', function() {
+        const passwordInput = document.getElementById('password');
+        const confirmPasswordInput = document.getElementById('confirm_password');
+        const passwordFeedback = document.getElementById('password-feedback');
+        const confirmFeedback = document.getElementById('confirm-feedback');
+        const strengthMeter = document.querySelector('.password-strength-meter');
+        const strengthText = document.querySelector('.password-strength-text');
+        const togglePassword = document.getElementById('toggle-password');
+        const registerForm = document.getElementById('register-form');
         
-        if (password.length < 8) {
-            alert('Password must be at least 8 characters long.');
-            e.preventDefault();
-            return;
-        }
+        // Toggle password visibility
+        togglePassword.addEventListener('click', function() {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            this.querySelector('i').classList.toggle('bi-eye');
+            this.querySelector('i').classList.toggle('bi-eye-slash');
+        });
         
-        if (password !== confirmPassword) {
-            alert('Passwords do not match.');
-            e.preventDefault();
-            return;
-        }
+        // Check password strength
+        passwordInput.addEventListener('input', function() {
+            const password = this.value;
+            let strength = 0;
+            
+            // Reset classes
+            strengthMeter.className = 'password-strength-meter';
+            
+            if (password.length < 8) {
+                passwordFeedback.style.display = 'block';
+                strengthMeter.classList.add('strength-weak');
+                strengthText.textContent = 'Svag';
+                strengthText.style.color = '#f44336';
+                return;
+            }
+            
+            passwordFeedback.style.display = 'none';
+            strength += 1; // Length check passed
+            
+            // Check for mixed case
+            if (password.match(/[a-z]/) && password.match(/[A-Z]/)) {
+                strength += 1;
+            }
+            
+            // Check for numbers
+            if (password.match(/\d/)) {
+                strength += 1;
+            }
+            
+            // Check for special characters
+            if (password.match(/[^a-zA-Z\d]/)) {
+                strength += 1;
+            }
+            
+            // Update strength meter
+            switch (strength) {
+                case 1:
+                    strengthMeter.classList.add('strength-weak');
+                    strengthText.textContent = 'Svag';
+                    strengthText.style.color = '#f44336';
+                    break;
+                case 2:
+                    strengthMeter.classList.add('strength-medium');
+                    strengthText.textContent = 'Medium';
+                    strengthText.style.color = '#ff9800';
+                    break;
+                case 3:
+                    strengthMeter.classList.add('strength-good');
+                    strengthText.textContent = 'God';
+                    strengthText.style.color = '#2196f3';
+                    break;
+                case 4:
+                    strengthMeter.classList.add('strength-strong');
+                    strengthText.textContent = 'Stærk';
+                    strengthText.style.color = '#4caf50';
+                    break;
+            }
+        });
+        
+        // Check if passwords match
+        confirmPasswordInput.addEventListener('input', function() {
+            if (this.value !== passwordInput.value) {
+                confirmFeedback.style.display = 'block';
+            } else {
+                confirmFeedback.style.display = 'none';
+            }
+        });
+        
+        // Form submission validation
+        registerForm.addEventListener('submit', function(e) {
+            // Check password length
+            if (passwordInput.value.length < 8) {
+                passwordFeedback.style.display = 'block';
+                e.preventDefault();
+                return;
+            }
+            
+            // Check if passwords match
+            if (confirmPasswordInput.value !== passwordInput.value) {
+                confirmFeedback.style.display = 'block';
+                e.preventDefault();
+                return;
+            }
+        });
     });
 </script>
 {% endblock %}

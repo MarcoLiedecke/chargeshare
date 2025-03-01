@@ -3,216 +3,597 @@
 {% block title %}Dashboard - ChargeShare{% endblock %}
 
 {% block head_styles %}
-    .dashboard-container {
-        margin-top: 2rem;
-    }
-    
-    .sidebar {
-        background-color: white;
-        border-radius: 10px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-        padding: 1.5rem;
-        position: sticky;
-        top: 2rem;
-    }
-    
-    .sidebar-nav {
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-    }
-    
-    .sidebar-link {
-        display: flex;
-        align-items: center;
-        padding: 0.75rem 1rem;
-        border-radius: 8px;
-        color: #333;
-        text-decoration: none;
-        transition: all 0.2s ease;
-    }
-    
-    .sidebar-link:hover {
-        background-color: var(--cs-grey-light);
-    }
-    
-    .sidebar-link.active {
-        background-color: var(--cs-green-light);
-        color: var(--cs-green-dark);
-        font-weight: 500;
-    }
-    
-    .sidebar-link svg {
-        margin-right: 0.75rem;
-        width: 20px;
-        height: 20px;
-    }
-    
-    .dashboard-card {
-        height: 100%;
-    }
-    
-    .stat-card {
-        border-radius: 10px;
-        padding: 1.5rem;
-        height: 100%;
-        position: relative;
-        overflow: hidden;
-    }
-    
-    .stat-card.chargers {
-        background-color: var(--cs-green-light);
-        color: var(--cs-green-dark);
-    }
-    
-    .stat-card.reservations {
-        background-color: var(--cs-green);
-        color: white;
-    }
-    
-    .stat-card.earnings {
-        background-color: var(--cs-green-dark);
-        color: white;
-    }
-    
-    .stat-card .stat-icon {
-        position: absolute;
-        right: -15px;
-        bottom: -15px;
-        opacity: 0.15;
-        font-size: 5rem;
-    }
-    
-    .map-container {
-        height: 400px;
-        width: 100%;
-        background-color: var(--cs-grey-light);
-        border-radius: 10px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-bottom: 2rem;
-        position: relative;
-        overflow: hidden;
-    }
-    
-    /* Ensure the map is contained within its container */
-    .map-container .leaflet-container {
-        height: 100%;
-        width: 100%;
-        position: absolute;
-        z-index: 1;
-    }
-    
-    .table-container {
-        background-color: white;
-        border-radius: 10px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-        padding: 1.5rem;
-        margin-bottom: 2rem;
-    }
+/* Dashboard Layout */
+.dashboard-container {
+    padding: 40px 0;
+    background-color: var(--cs-gray-100);
+    min-height: 100vh;
+}
 
-    .badge {
-        padding: 0.5rem 0.75rem;
-        border-radius: 50px;
+/* Sidebar */
+.sidebar {
+    background-color: white;
+    border-radius: var(--cs-border-radius);
+    box-shadow: var(--cs-shadow);
+    position: sticky;
+    top: 100px;
+    padding: 24px;
+}
+
+.user-profile {
+    text-align: center;
+    margin-bottom: 24px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--cs-gray-200);
+}
+
+.user-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 16px;
+    border: 3px solid var(--cs-primary-light);
+}
+
+.user-name {
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.user-status {
+    display: inline-flex;
+    align-items: center;
+    background-color: var(--cs-primary-light);
+    color: var(--cs-primary-dark);
+    font-size: 0.875rem;
+    padding: 4px 12px;
+    border-radius: 100px;
+    margin-top: 8px;
+}
+
+.user-status .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--cs-primary);
+    margin-right: 6px;
+}
+
+.sidebar-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar-menu-item {
+    margin-bottom: 8px;
+}
+
+.sidebar-menu-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border-radius: var(--cs-border-radius-sm);
+    color: var(--cs-gray-800);
+    text-decoration: none;
+    transition: var(--cs-transition);
+}
+
+.sidebar-menu-link:hover {
+    background-color: var(--cs-gray-100);
+    color: var(--cs-primary);
+}
+
+.sidebar-menu-link.active {
+    background-color: var(--cs-primary-light);
+    color: var(--cs-primary-dark);
+}
+
+.sidebar-menu-link i {
+    font-size: 1.25rem;
+}
+
+/* Dashboard Content */
+.dashboard-card {
+    background-color: white;
+    border-radius: var(--cs-border-radius);
+    box-shadow: var(--cs-shadow);
+    padding: 24px;
+    height: 100%;
+}
+
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.page-title {
+    margin: 0;
+    font-size: 1.75rem;
+}
+
+/* Stats Cards */
+.stats-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 24px;
+    margin-bottom: 32px;
+}
+
+.stats-card {
+    padding: 24px;
+    border-radius: var(--cs-border-radius);
+    background-color: white;
+    box-shadow: var(--cs-shadow);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.stats-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: var(--cs-border-radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+    color: white;
+    font-size: 1.5rem;
+}
+
+.stats-icon.chargers {
+    background-color: var(--cs-primary);
+}
+
+.stats-icon.reservations {
+    background-color: var(--cs-secondary);
+}
+
+.stats-icon.earnings {
+    background-color: var(--cs-accent);
+}
+
+.stats-icon.ratings {
+    background-color: #8e44ad;
+}
+
+.stats-title {
+    font-size: 1rem;
+    color: var(--cs-gray-800);
+    margin-bottom: 8px;
+}
+
+.stats-value {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.stats-change {
+    display: flex;
+    align-items: center;
+    font-size: 0.875rem;
+    margin-top: auto;
+}
+
+.stats-change.positive {
+    color: var(--cs-primary);
+}
+
+.stats-change.negative {
+    color: #e74c3c;
+}
+
+.stats-change i {
+    margin-right: 4px;
+}
+
+/* Map Container */
+.map-container {
+    border-radius: var(--cs-border-radius);
+    overflow: hidden;
+    height: 400px;
+    margin-bottom: 32px;
+    box-shadow: var(--cs-shadow);
+}
+
+/* Chargers Table */
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.section-title {
+    margin: 0;
+    font-size: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.table-container {
+    background-color: white;
+    border-radius: var(--cs-border-radius);
+    box-shadow: var(--cs-shadow);
+    overflow: hidden;
+    margin-bottom: 32px;
+}
+
+.dashboard-table {
+    margin-bottom: 0;
+}
+
+.dashboard-table th {
+    background-color: var(--cs-gray-100);
+    font-weight: 600;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--cs-gray-200);
+}
+
+.dashboard-table td {
+    padding: 16px;
+    vertical-align: middle;
+}
+
+.badge {
+    padding: 6px 12px;
+    border-radius: 100px;
+    font-weight: 500;
+}
+
+.badge-active {
+    background-color: var(--cs-primary-light);
+    color: var(--cs-primary-dark);
+}
+
+.badge-inactive {
+    background-color: var(--cs-gray-200);
+    color: var(--cs-gray-800);
+}
+
+.badge-pending {
+    background-color: #fff8e1;
+    color: #f57f17;
+}
+
+.badge-completed {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+}
+
+.badge-canceled {
+    background-color: #ffebee;
+    color: #c62828;
+}
+
+.table-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Reservation Calendar */
+.calendar-container {
+    background-color: white;
+    border-radius: var(--cs-border-radius);
+    box-shadow: var(--cs-shadow);
+    padding: 24px;
+    margin-bottom: 32px;
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.calendar-title {
+    margin: 0;
+    font-size: 1.25rem;
+}
+
+.calendar-nav {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.calendar-nav-btn {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--cs-border-radius-sm);
+    background-color: var(--cs-gray-100);
+    color: var(--cs-gray-800);
+    border: none;
+    cursor: pointer;
+    transition: var(--cs-transition);
+}
+
+.calendar-nav-btn:hover {
+    background-color: var(--cs-primary-light);
+    color: var(--cs-primary-dark);
+}
+
+.calendar-date {
+    font-weight: 600;
+    margin: 0 16px;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+}
+
+.calendar-day {
+    text-align: center;
+    font-weight: 600;
+    padding: 8px;
+    color: var(--cs-gray-800);
+}
+
+.calendar-date-cell {
+    aspect-ratio: 1/1;
+    border-radius: var(--cs-border-radius-sm);
+    border: 1px solid var(--cs-gray-200);
+    padding: 8px;
+    cursor: pointer;
+    transition: var(--cs-transition);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.calendar-date-cell:hover {
+    border-color: var(--cs-primary-light);
+    background-color: var(--cs-gray-100);
+}
+
+.calendar-date-number {
+    font-size: 0.875rem;
+    margin-bottom: 4px;
+}
+
+.calendar-date-event {
+    font-size: 0.75rem;
+    background-color: var(--cs-primary-light);
+    color: var(--cs-primary-dark);
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-bottom: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.calendar-date-event.event-secondary {
+    background-color: var(--cs-secondary-light);
+    color: var(--cs-secondary);
+}
+
+.calendar-date-event.event-accent {
+    background-color: #fff8e1;
+    color: #f57f17;
+}
+
+.calendar-date-event-more {
+    font-size: 0.75rem;
+    color: var(--cs-gray-800);
+    text-align: center;
+}
+
+/* Recent Activity */
+.activity-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.activity-item {
+    padding: 16px 0;
+    border-bottom: 1px solid var(--cs-gray-200);
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+}
+
+.activity-item:last-child {
+    border-bottom: none;
+}
+
+.activity-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    flex-shrink: 0;
+}
+
+.activity-icon.reservation {
+    background-color: var(--cs-primary-light);
+    color: var(--cs-primary-dark);
+}
+
+.activity-icon.payment {
+    background-color: var(--cs-secondary-light);
+    color: var(--cs-secondary);
+}
+
+.activity-icon.rating {
+    background-color: #fff8e1;
+    color: #f57f17;
+}
+
+.activity-content {
+    flex: 1;
+}
+
+.activity-title {
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.activity-time {
+    font-size: 0.875rem;
+    color: var(--cs-gray-800);
+}
+
+.activity-action {
+    margin-left: auto;
+}
+
+/* Add Charger Modal */
+.charger-modal .modal-header {
+    background-color: var(--cs-primary);
+    color: white;
+    border-radius: var(--cs-border-radius) var(--cs-border-radius) 0 0;
+    padding: 16px 24px;
+}
+
+.charger-modal .modal-title {
+    font-weight: 600;
+}
+
+/* Map Marker */
+.marker-icon {
+    width: 40px;
+    height: 40px;
+    background-color: var(--cs-primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.marker-popup {
+    font-family: 'Inter', sans-serif;
+}
+
+.marker-popup h5 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.marker-popup p {
+    margin-bottom: 8px;
+}
+
+.marker-popup .marker-type {
+    display: inline-block;
+    font-size: 0.75rem;
+    padding: 2px 8px;
+    background-color: var(--cs-primary-light);
+    color: var(--cs-primary-dark);
+    border-radius: 100px;
+    margin-bottom: 8px;
+}
+
+.marker-popup .marker-power {
+    font-weight: 500;
+}
+
+.marker-popup .marker-price {
+    color: var(--cs-primary);
+    font-weight: 600;
+}
+
+.marker-popup .btn {
+    margin-top: 8px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 992px) {
+    .sidebar {
+        margin-bottom: 24px;
+        position: static;
     }
     
-    .section-title {
+    .user-profile {
+        text-align: left;
         display: flex;
         align-items: center;
-        margin-bottom: 1.5rem;
+        gap: 16px;
     }
     
-    .section-title svg {
-        margin-right: 0.75rem;
-        width: 24px;
-        height: 24px;
+    .user-avatar {
+        margin-bottom: 0;
     }
     
-    #addChargerModal .modal-header {
-        background-color: var(--cs-green);
-        color: white;
+    .stats-cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 576px) {
+    .dashboard-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
     }
     
-    /* OpenStreetMap Styles */
-    .charger-marker {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 36px;
-        height: 36px;
-        background-color: var(--cs-green);
-        border-radius: 50%;
-        border: 2px solid white;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        color: white;
+    .stats-cards {
+        grid-template-columns: 1fr;
     }
     
-    .charger-marker svg {
-        width: 20px;
-        height: 20px;
+    .table-responsive {
+        margin-bottom: 0;
     }
-    
-    .charger-popup .charger-type {
-        display: inline-block;
-        padding: 2px 6px;
-        margin-bottom: 8px;
-        border-radius: 4px;
-        background-color: var(--cs-grey-light);
-        font-size: 12px;
-        font-weight: bold;
-    }
-    
-    .charger-popup .charger-price {
-        font-weight: bold;
-        color: var(--cs-green);
-    }
-    
-    .charger-popup .charger-power {
-        margin-top: 6px;
-        font-weight: 500;
-    }
-    
-    .charger-popup .charger-rating {
-        color: orange;
-        margin-top: 6px;
-    }
-    
-    .charger-popup .charger-actions {
-        margin-top: 10px;
-    }
+}
 {% endblock %}
 
 {% block nav_items %}
 <li class="nav-item">
     <a class="nav-link" href="{{ url_for('index') }}">
-        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M10 2.5L2 8.5V17.5H7V11.5H13V17.5H18V8.5L10 2.5Z" fill="currentColor"/>
-        </svg>
-        Home
+        <i class="bi bi-house-fill"></i>
+        Hjem
     </a>
 </li>
 <li class="nav-item">
     <a class="nav-link active" href="{{ url_for('dashboard') }}">
-        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M3 3H9V9H3V3ZM11 3H17V9H11V3ZM3 11H9V17H3V11ZM11 11H17V17H11V11Z" fill="currentColor"/>
-        </svg>
+        <i class="bi bi-grid-fill"></i>
         Dashboard
     </a>
 </li>
 {% endblock %}
 
 {% block nav_right %}
-<div class="d-flex align-items-center">
-    <div class="me-3 text-muted d-none d-md-block">Welcome, {{ current_user.name }}</div>
-    <a href="{{ url_for('logout') }}" class="btn btn-outline-primary">
-        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M7 19H3C2.46957 19 1.96086 18.7893 1.58579 18.4142C1.21071 18.0391 1 17.5304 1 17V3C1 2.46957 1.21071 1.96086 1.58579 1.58579C1.96086 1.21071 2.46957 1 3 1H7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M14 15L19 10L14 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M19 10H7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        Sign out
-    </a>
+<div class="d-flex align-items-center gap-3">
+    <div class="d-none d-md-block">
+        <div class="text-end">
+            <div class="fw-medium">{{ current_user.name }}</div>
+            <div class="text-muted small">{{ current_user.email }}</div>
+        </div>
+    </div>
+    <div class="dropdown">
+        <button class="btn btn-outline-secondary dropdown-toggle d-flex align-items-center gap-2" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            <img src="{{ url_for('static', filename='images/user-avatar.jpg') }}" alt="User avatar" class="rounded-circle" width="32" height="32">
+            <span class="d-none d-md-inline">Min profil</span>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+            <li><a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i>Profil</a></li>
+            <li><a class="dropdown-item" href="#"><i class="bi bi-gear me-2"></i>Indstillinger</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="{{ url_for('logout') }}"><i class="bi bi-box-arrow-right me-2"></i>Log ud</a></li>
+        </ul>
+    </div>
 </div>
 {% endblock %}
 
@@ -221,138 +602,369 @@
     <div class="container">
         <div class="row g-4">
             <!-- Sidebar -->
-            <div class="col-md-3">
+            <div class="col-lg-3">
                 <div class="sidebar">
-                    <div class="sidebar-nav">
-                        <a href="#dashboard" class="sidebar-link active">
-                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M3 3H9V9H3V3ZM11 3H17V9H11V3ZM3 11H9V17H3V11ZM11 11H17V17H11V11Z" fill="currentColor"/>
-                            </svg>
-                            Dashboard
-                        </a>
-                        <a href="#my-chargers" class="sidebar-link">
-                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M11 3V11H6.5V17H5V11H3V3H11ZM13 3H17V17H13V3ZM15 5V15H15.2V5H15Z" fill="currentColor"/>
-                            </svg>
-                            My Chargers
-                        </a>
-                        <a href="#my-reservations" class="sidebar-link">
-                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M15 2H17C17.5304 2 18.0391 2.21071 18.4142 2.58579C18.7893 2.96086 19 3.46957 19 4V18C19 18.5304 18.7893 19.0391 18.4142 19.4142C18.0391 19.7893 17.5304 20 17 20H3C2.46957 20 1.96086 19.7893 1.58579 19.4142C1.21071 19.0391 1 18.5304 1 18V4C1 3.46957 1.21071 2.96086 1.58579 2.58579C1.96086 2.21071 2.46957 2 3 2H5V0H7V2H13V0H15V2ZM3 8V18H17V8H3ZM5 10H15V12H5V10ZM5 14H11V16H5V14Z" fill="currentColor"/>
-                            </svg>
-                            My Reservations
-                        </a>
-                        <a href="#find-chargers" class="sidebar-link">
-                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M8 2C5.79086 2 4 3.79086 4 6C4 8.20914 5.79086 10 8 10C10.2091 10 12 8.20914 12 6C12 3.79086 10.2091 2 8 2ZM2 6C2 2.68629 4.68629 0 8 0C11.3137 0 14 2.68629 14 6C14 9.31371 11.3137 12 8 12C4.68629 12 2 9.31371 2 6ZM15.8 14.8C15.5 14.5 15 14.5 14.7 14.8L12.7 16.8C12.4 17.1 12.4 17.5 12.7 17.8C13 18.1 13.4 18.1 13.7 17.8L15.8 15.8C16.1 15.5 16.1 15.1 15.8 14.8Z" fill="currentColor"/>
-                            </svg>
-                            Find Chargers
-                        </a>
-                        <a href="#earnings" class="sidebar-link">
-                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M10 0C4.48 0 0 4.48 0 10C0 15.52 4.48 20 10 20C15.52 20 20 15.52 20 10C20 4.48 15.52 0 10 0ZM10 18C5.58 18 2 14.42 2 10C2 5.58 5.58 2 10 2C14.42 2 18 5.58 18 10C18 14.42 14.42 18 10 18ZM11 5H9V11H15V9H11V5Z" fill="currentColor"/>
-                            </svg>
-                            Earnings
-                        </a>
-                        <a href="#profile" class="sidebar-link">
-                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M10 0C4.48 0 0 4.48 0 10C0 15.52 4.48 20 10 20C15.52 20 20 15.52 20 10C20 4.48 15.52 0 10 0ZM10 3C11.66 3 13 4.34 13 6C13 7.66 11.66 9 10 9C8.34 9 7 7.66 7 6C7 4.34 8.34 3 10 3ZM10 17.2C7.5 17.2 5.29 15.92 4 13.98C4.03 11.99 8 10.9 10 10.9C11.99 10.9 15.97 11.99 16 13.98C14.71 15.92 12.5 17.2 10 17.2Z" fill="currentColor"/>
-                            </svg>
-                            Profile
-                        </a>
+                    <div class="user-profile">
+                        <img src="{{ url_for('static', filename='images/user-avatar.jpg') }}" alt="User avatar" class="user-avatar">
+                        <div>
+                            <h5 class="user-name">{{ current_user.name }}</h5>
+                            <div class="text-muted">{{ current_user.email }}</div>
+                            <div class="user-status">
+                                <span class="dot"></span> Aktiv bruger
+                            </div>
+                        </div>
                     </div>
+                    
+                    <ul class="sidebar-menu">
+                        <li class="sidebar-menu-item">
+                            <a href="#dashboard" class="sidebar-menu-link active" data-target="dashboard-section">
+                                <i class="bi bi-grid-fill"></i>
+                                <span>Dashboard</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-menu-item">
+                            <a href="#chargers" class="sidebar-menu-link" data-target="chargers-section">
+                                <i class="bi bi-lightning-charge-fill"></i>
+                                <span>Mine ladestandere</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-menu-item">
+                            <a href="#reservations" class="sidebar-menu-link" data-target="reservations-section">
+                                <i class="bi bi-calendar-check-fill"></i>
+                                <span>Reservationer</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-menu-item">
+                            <a href="#findchargers" class="sidebar-menu-link" data-target="findchargers-section">
+                                <i class="bi bi-geo-alt-fill"></i>
+                                <span>Find ladestandere</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-menu-item">
+                            <a href="#earnings" class="sidebar-menu-link" data-target="earnings-section">
+                                <i class="bi bi-wallet2"></i>
+                                <span>Indtjening</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-menu-item">
+                            <a href="#ratings" class="sidebar-menu-link" data-target="ratings-section">
+                                <i class="bi bi-star-fill"></i>
+                                <span>Anmeldelser</span>
+                            </a>
+                        </li>
+                        <hr>
+                        <li class="sidebar-menu-item">
+                            <a href="#settings" class="sidebar-menu-link" data-target="settings-section">
+                                <i class="bi bi-gear-fill"></i>
+                                <span>Indstillinger</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-menu-item">
+                            <a href="#help" class="sidebar-menu-link" data-target="help-section">
+                                <i class="bi bi-question-circle-fill"></i>
+                                <span>Hjælp & Support</span>
+                            </a>
+                        </li>
+                    </ul>
                 </div>
             </div>
             
             <!-- Main Content -->
-            <div class="col-md-9">
-                <div id="dashboard">
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <h1 class="m-0">Dashboard</h1>
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addChargerModal">
-                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-right: 6px;">
-                                <path d="M8 0C3.58 0 0 3.58 0 8C0 12.42 3.58 16 8 16C12.42 16 16 12.42 16 8C16 3.58 12.42 0 8 0ZM12 9H9V12H7V9H4V7H7V4H9V7H12V9Z" fill="white"/>
-                            </svg>
-                            Add Charger
+            <div class="col-lg-9">
+                <!-- Dashboard Section -->
+                <section id="dashboard-section" class="dashboard-section active-section">
+                    <div class="dashboard-header">
+                        <h1 class="page-title">Dashboard</h1>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addChargerModal">
+                            <i class="bi bi-plus-lg me-2"></i> Tilføj ladestander
                         </button>
                     </div>
                     
-                    <!-- Overview Cards -->
-                    <div class="row g-4 mb-4">
-                        <div class="col-md-4">
-                            <div class="stat-card chargers">
-                                <h5>My Chargers</h5>
-                                <p class="display-4 fw-bold">{{ chargers|length }}</p>
-                                <p>Active charging stations</p>
-                                <div class="stat-icon">
-                                    <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M44 12V44H26V68H20V44H12V12H44ZM52 12H68V68H52V12ZM60 20V60H60.8V20H60Z" fill="currentColor"/>
-                                    </svg>
-                                </div>
+                    <!-- Stats Cards -->
+                    <div class="stats-cards">
+                        <div class="stats-card">
+                            <div class="stats-icon chargers">
+                                <i class="bi bi-lightning-charge-fill"></i>
+                            </div>
+                            <div class="stats-title">Mine ladestandere</div>
+                            <div class="stats-value">{{ chargers|length }}</div>
+                            <div class="stats-change positive">
+                                <i class="bi bi-arrow-up"></i>
+                                <span>1 ny denne måned</span>
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            <div class="stat-card reservations">
-                                <h5>My Reservations</h5>
-                                <p class="display-4 fw-bold">{{ reservations|length }}</p>
-                                <p>Active and upcoming reservations</p>
-                                <div class="stat-icon">
-                                    <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M60 8H68C69.0609 8 70.0783 8.42143 70.8284 9.17157C71.5786 9.92172 72 10.9391 72 12V68C72 69.0609 71.5786 70.0783 70.8284 70.8284C70.0783 71.5786 69.0609 72 68 72H12C10.9391 72 9.92172 71.5786 9.17157 70.8284C8.42143 70.0783 8 69.0609 8 68V12C8 10.9391 8.42143 9.92172 9.17157 9.17157C9.92172 8.42143 10.9391 8 12 8H20V4H28V8H52V4H60V8ZM12 28V68H68V28H12ZM20 36H60V44H20V36ZM20 52H44V60H20V52Z" fill="currentColor"/>
-                                    </svg>
-                                </div>
+                        
+                        <div class="stats-card">
+                            <div class="stats-icon reservations">
+                                <i class="bi bi-calendar-check-fill"></i>
+                            </div>
+                            <div class="stats-title">Reservationer</div>
+                            <div class="stats-value">{{ reservations|length }}</div>
+                            <div class="stats-change positive">
+                                <i class="bi bi-arrow-up"></i>
+                                <span>5 nye denne uge</span>
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            <div class="stat-card earnings">
-                                <h5>Total Earnings</h5>
-                                <p class="display-4 fw-bold">kr {{ '%0.2f'|format(total_earnings|default(0)) }}</p>
-                                <p>Earnings from your chargers</p>
-                                <div class="stat-icon">
-                                    <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M39.9999 0C19.9199 0 3.99988 15.92 3.99988 36C3.99988 56.08 19.9199 72 39.9999 72C60.0799 72 75.9999 56.08 75.9999 36C75.9999 15.92 60.0799 0 39.9999 0ZM39.9999 64.8C23.9199 64.8 11.1999 52.08 11.1999 36C11.1999 19.92 23.9199 7.2 39.9999 7.2C56.0799 7.2 68.7999 19.92 68.7999 36C68.7999 52.08 56.0799 64.8 39.9999 64.8ZM43.9999 18H35.9999V39.6H57.5999V31.6H43.9999V18Z" fill="currentColor"/>
-                                    </svg>
-                                </div>
+                        
+                        <div class="stats-card">
+                            <div class="stats-icon earnings">
+                                <i class="bi bi-cash-coin"></i>
+                            </div>
+                            <div class="stats-title">Indtjening</div>
+                            <div class="stats-value">kr {{ '%0.0f'|format(total_earnings|default(0)) }}</div>
+                            <div class="stats-change positive">
+                                <i class="bi bi-arrow-up"></i>
+                                <span>15% mere end sidste måned</span>
+                            </div>
+                        </div>
+                        
+                        <div class="stats-card">
+                            <div class="stats-icon ratings">
+                                <i class="bi bi-star-fill"></i>
+                            </div>
+                            <div class="stats-title">Gennemsnitlig bedømmelse</div>
+                            <div class="stats-value">4.8</div>
+                            <div class="stats-change positive">
+                                <i class="bi bi-arrow-up"></i>
+                                <span>0.2 højere end sidste måned</span>
                             </div>
                         </div>
                     </div>
-                </div>
+                    
+                    <!-- Recent Activity -->
+                    <div class="section-header">
+                        <h2 class="section-title">
+                            <i class="bi bi-activity text-primary me-2"></i>
+                            Seneste aktivitet
+                        </h2>
+                        <a href="#" class="btn btn-sm btn-outline-primary">Se alle</a>
+                    </div>
+                    
+                    <div class="dashboard-card mb-4">
+                        <ul class="activity-list">
+                            <li class="activity-item">
+                                <div class="activity-icon reservation">
+                                    <i class="bi bi-calendar-check"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <div class="activity-title">Ny reservation modtaget</div>
+                                    <div class="activity-description">Peter H. har reserveret din ladestander på Amager for d. 15. marts, 13:00-15:00.</div>
+                                    <div class="activity-time">For 2 timer siden</div>
+                                </div>
+                                <div class="activity-action">
+                                    <button class="btn btn-sm btn-primary">Godkend</button>
+                                </div>
+                            </li>
+                            <li class="activity-item">
+                                <div class="activity-icon payment">
+                                    <i class="bi bi-cash-coin"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <div class="activity-title">Betaling modtaget</div>
+                                    <div class="activity-description">Du har modtaget kr 85 for en reservation den 12. marts.</div>
+                                    <div class="activity-time">I går, 14:32</div>
+                                </div>
+                            </li>
+                            <li class="activity-item">
+                                <div class="activity-icon rating">
+                                    <i class="bi bi-star"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <div class="activity-title">Ny anmeldelse</div>
+                                    <div class="activity-description">Signe K. gav din ladestander 5 stjerner. "Perfekt placering og super nem at bruge!"</div>
+                                    <div class="activity-time">3 dage siden</div>
+                                </div>
+                            </li>
+                            <li class="activity-item">
+                                <div class="activity-icon reservation">
+                                    <i class="bi bi-calendar-check"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <div class="activity-title">Reservation gennemført</div>
+                                    <div class="activity-description">En reservation på din ladestander i Østerbro er blevet gennemført.</div>
+                                    <div class="activity-time">5 dage siden</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Upcoming Reservations Calendar -->
+                    <div class="section-header">
+                        <h2 class="section-title">
+                            <i class="bi bi-calendar text-primary me-2"></i>
+                            Kommende reservationer
+                        </h2>
+                    </div>
+                    
+                    <div class="calendar-container">
+                        <div class="calendar-header">
+                            <h3 class="calendar-title">Marts 2025</h3>
+                            <div class="calendar-nav">
+                                <button class="calendar-nav-btn">
+                                    <i class="bi bi-chevron-left"></i>
+                                </button>
+                                <span class="calendar-date">Marts 2025</span>
+                                <button class="calendar-nav-btn">
+                                    <i class="bi bi-chevron-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="calendar-grid">
+                            <!-- Week days -->
+                            <div class="calendar-day">Man</div>
+                            <div class="calendar-day">Tir</div>
+                            <div class="calendar-day">Ons</div>
+                            <div class="calendar-day">Tor</div>
+                            <div class="calendar-day">Fre</div>
+                            <div class="calendar-day">Lør</div>
+                            <div class="calendar-day">Søn</div>
+                            
+                            <!-- Calendar dates - Row 1 -->
+                            <div class="calendar-date-cell">
+                                <div class="calendar-date-number text-muted">25</div>
+                            </div>
+                            <div class="calendar-date-cell">
+                                <div class="calendar-date-number text-muted">26</div>
+                            </div>
+                            <div class="calendar-date-cell">
+                                <div class="calendar-date-number text-muted">27</div>
+                            </div>
+                            <div class="calendar-date-cell">
+                                <div class="calendar-date-number text-muted">28</div>
+                            </div>
+                            <div class="calendar-date-cell">
+                                <div class="calendar-date-number">1</div>
+                            </div>
+                            <div class="calendar-date-cell">
+                                <div class="calendar-date-number">2</div>
+                            </div>
+                            <div class="calendar-date-cell">
+                                <div class="calendar-date-number">3</div>
+                            </div>
+                            
+                            <!-- Calendar dates - Row 2 -->
+                            <div class="calendar-date-cell">
+                                <div class="calendar-date-number">4</div>
+                            </div>
+                            <div class="calendar-date-cell">
+                                <div class="calendar-date-number">5</div>
+                            </div>
+                            <div class="calendar-date-cell">
+                                <div class="calendar-date-number">6</div>
+                            </div>
+                            <div class="calendar-date-cell">
+                                <div class="calendar-date-number">7</div>
+                            </div>
+                            <div class="calendar-date-cell">
+                                <div class="calendar-date-number">8</div>
+                            </div>
+                            <div class="calendar-date-cell">
+                                <div class="calendar-date-number">9</div>
+                            </div>
+                            <div class="calendar-date-cell">
+                                <div class="calendar-date-number">10</div>
+                            </div>
+                            
+                            <!-- Calendar dates - Row 3 -->
+                            <div class="calendar-date-cell">
+                                <div class="calendar-date-number">11</div>
+                            </div>
+                            <div class="calendar-date-cell">
+                                <div class="calendar-date-number">12</div>
+                                <div class="calendar-date-event">Østerbro, 14-16</div>
+                            </div>
+                            <div class="calendar-date-cell">
+                                <div class="calendar-date-number">13</div>
+                            </div>
+                            <div class="calendar-date-cell">
+                                <div class="calendar-date-number">14</div>
+                            </div>
+                            <div class="calendar-date-cell">
+                                <div class="calendar-date-number">15</div>
+                                <div class="calendar-date-event">Amager, 13-15</div>
+                            </div>
+                            <div class="calendar-date-cell">
+                                <div class="calendar-date-number">16</div>
+                            </div>
+                            <div class="calendar-date-cell">
+                                <div class="calendar-date-number">17</div>
+                            </div>
+                            
+                            <!-- Calendar dates - Row 4 -->
+                            <div class="calendar-date-cell">
+                                <div class="calendar-date-number">18</div>
+                            </div>
+                            <div class="calendar-date-cell">
+                                <div class="calendar-date-number">19</div>
+                            </div>
+                            <div class="calendar-date-cell">
+                                <div class="calendar-date-number">20</div>
+                                <div class="calendar-date-event">Østerbro, 9-11</div>
+                                <div class="calendar-date-event event-secondary">Amager, 15-17</div>
+                            </div>
+                            <div class="calendar-date-cell">
+                                <div class="calendar-date-number">21</div>
+                            </div>
+                            <div class="calendar-date-cell">
+                                <div class="calendar-date-number">22</div>
+                            </div>
+                            <div class="calendar-date-cell">
+                                <div class="calendar-date-number">23</div>
+                            </div>
+                            <div class="calendar-date-cell">
+                                <div class="calendar-date-number">24</div>
+                            </div>
+                            
+                            <!-- Calendar dates - Row 5 -->
+                            <div class="calendar-date-cell">
+                                <div class="calendar-date-number">25</div>
+                            </div>
+                            <div class="calendar-date-cell">
+                                <div class="calendar-date-number">26</div>
+                            </div>
+                            <div class="calendar-date-cell">
+                                <div class="calendar-date-number">27</div>
+                            </div>
+                            <div class="calendar-date-cell">
+                                <div class="calendar-date-number">28</div>
+                                <div class="calendar-date-event event-accent">Østerbro, 12-14</div>
+                            </div>
+                            <div class="calendar-date-cell">
+                                <div class="calendar-date-number">29</div>
+                            </div>
+                            <div class="calendar-date-cell">
+                                <div class="calendar-date-number">30</div>
+                            </div>
+                            <div class="calendar-date-cell">
+                                <div class="calendar-date-number">31</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
                 
-                <!-- Find Chargers Map Section -->
-                <div id="find-chargers" class="mb-5">
-                    <div class="section-title">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 2C8.13 2 5 5.13 5 9C5 14.25 12 22 12 22C12 22 19 14.25 19 9C19 5.13 15.87 2 12 2ZM12 11.5C10.62 11.5 9.5 10.38 9.5 9C9.5 7.62 10.62 6.5 12 6.5C13.38 6.5 14.5 7.62 14.5 9C14.5 10.38 13.38 11.5 12 11.5Z" fill="var(--cs-green)"/>
-                        </svg>
-                        <h2 class="m-0">Find Nearby Chargers</h2>
-                    </div>
-                    <div class="map-container" id="map">
-                        <!-- Map will be loaded here -->
-                    </div>
-                </div>
-
-                <!-- My Chargers Section -->
-                <div id="my-chargers" class="mb-5">
-                    <div class="section-title">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M13.2 4V13.2H7.8V20.4H6V13.2H3.6V4H13.2ZM15.6 4H20.4V20.4H15.6V4ZM18 6V18H18.24V6H18Z" fill="var(--cs-green)"/>
-                        </svg>
-                        <h2 class="m-0">My Chargers</h2>
+                <!-- Chargers Section -->
+                <section id="chargers-section" class="dashboard-section d-none">
+                    <div class="dashboard-header">
+                        <h1 class="page-title">Mine ladestandere</h1>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addChargerModal">
+                            <i class="bi bi-plus-lg me-2"></i> Tilføj ladestander
+                        </button>
                     </div>
                     
                     {% if chargers %}
                     <div class="table-container">
                         <div class="table-responsive">
-                            <table class="table table-hover">
+                            <table class="table dashboard-table">
                                 <thead>
                                     <tr>
-                                        <th>Name</th>
-                                        <th>Address</th>
+                                        <th>Navn</th>
+                                        <th>Adresse</th>
                                         <th>Type</th>
-                                        <th>Power</th>
-                                        <th>Price</th>
+                                        <th>Effekt</th>
+                                        <th>Pris</th>
                                         <th>Status</th>
-                                        <th>Actions</th>
+                                        <th>Handling</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -362,17 +974,23 @@
                                         <td>{{ charger.address }}</td>
                                         <td>{{ charger.charger_type }}</td>
                                         <td>{{ charger.power_output }} kW</td>
-                                        <td>kr {{ '%0.2f'|format(charger.price_per_hour) }}/hr</td>
+                                        <td>kr {{ '%0.2f'|format(charger.price_per_hour) }}/time</td>
                                         <td>
                                             {% if charger.is_active %}
-                                            <span class="badge bg-success">Active</span>
+                                            <span class="badge badge-active">Aktiv</span>
                                             {% else %}
-                                            <span class="badge bg-secondary">Inactive</span>
+                                            <span class="badge badge-inactive">Inaktiv</span>
                                             {% endif %}
                                         </td>
                                         <td>
-                                            <button class="btn btn-sm btn-outline-primary">Edit</button>
-                                            <button class="btn btn-sm btn-outline-danger">Disable</button>
+                                            <div class="table-actions">
+                                                <button class="btn btn-sm btn-outline-primary">
+                                                    <i class="bi bi-pencil"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-outline-danger">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </div>
                                         </td>
                                     </tr>
                                     {% endfor %}
@@ -381,63 +999,170 @@
                         </div>
                     </div>
                     {% else %}
-                    <div class="alert alert-info">
-                        <p>You haven't added any chargers yet. <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addChargerModal">Add your first charger</button></p>
+                    <div class="dashboard-card text-center py-5">
+                        <img src="{{ url_for('static', filename='images/empty-chargers.svg') }}" alt="No chargers" class="mb-4" style="width: 150px;">
+                        <h3 class="h4 mb-3">Ingen ladestandere endnu</h3>
+                        <p class="text-muted mb-4">Du har ikke tilføjet nogen ladestandere endnu. Kom i gang med at dele din lader og tjen penge!</p>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addChargerModal">
+                            <i class="bi bi-plus-lg me-2"></i> Tilføj din første ladestander
+                        </button>
                     </div>
                     {% endif %}
-                </div>
-
-                <!-- My Reservations Section -->
-                <div id="my-reservations" class="mb-5">
-                    <div class="section-title">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M18 2.5H19.5C19.8978 2.5 20.2794 2.65804 20.5607 2.93934C20.842 3.22064 21 3.60218 21 4V19.5C21 19.8978 20.842 20.2794 20.5607 20.5607C20.2794 20.842 19.8978 21 19.5 21H4.5C4.10218 21 3.72064 20.842 3.43934 20.5607C3.15804 20.2794 3 19.8978 3 19.5V4C3 3.60218 3.15804 3.22064 3.43934 2.93934C3.72064 2.65804 4.10218 2.5 4.5 2.5H6V1H7.5V2.5H16.5V1H18V2.5ZM4.5 8.5V19.5H19.5V8.5H4.5ZM6 11H16.5V12.5H6V11ZM6 15H12V16.5H6V15Z" fill="var(--cs-green)"/>
-                        </svg>
-                        <h2 class="m-0">My Reservations</h2>
+                </section>
+                
+                <!-- Find Chargers Section -->
+                <section id="findchargers-section" class="dashboard-section d-none">
+                    <div class="dashboard-header">
+                        <h1 class="page-title">Find ladestandere</h1>
+                        <div class="d-flex gap-2">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Søg efter område eller adresse">
+                                <button class="btn btn-primary">
+                                    <i class="bi bi-search"></i>
+                                </button>
+                            </div>
+                            <button class="btn btn-outline-primary">
+                                <i class="bi bi-funnel"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="map-container" id="map">
+                        <!-- Map will be loaded here -->
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-4 mb-4">
+                            <div class="dashboard-card">
+                                <h3 class="h5 mb-3">Central Station Charger</h3>
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <span class="badge badge-active">Type 2</span>
+                                    <span class="fw-bold text-primary">kr 45/time</span>
+                                </div>
+                                <p class="mb-2">
+                                    <i class="bi bi-geo-alt me-2"></i>
+                                    Bernstorffsgade 16, 1577 København
+                                </p>
+                                <p class="mb-2">
+                                    <i class="bi bi-lightning-charge me-2"></i>
+                                    22 kW
+                                </p>
+                                <p class="mb-3">
+                                    <i class="bi bi-star-fill me-2 text-warning"></i>
+                                    4.5/5 (12 anmeldelser)
+                                </p>
+                                <button class="btn btn-primary w-100">Book nu</button>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4 mb-4">
+                            <div class="dashboard-card">
+                                <h3 class="h5 mb-3">Nørreport Fast Charger</h3>
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <span class="badge badge-active">CCS</span>
+                                    <span class="fw-bold text-primary">kr 95/time</span>
+                                </div>
+                                <p class="mb-2">
+                                    <i class="bi bi-geo-alt me-2"></i>
+                                    Frederiksborggade 18, 1360 København
+                                </p>
+                                <p class="mb-2">
+                                    <i class="bi bi-lightning-charge me-2"></i>
+                                    150 kW
+                                </p>
+                                <p class="mb-3">
+                                    <i class="bi bi-star-fill me-2 text-warning"></i>
+                                    4.8/5 (24 anmeldelser)
+                                </p>
+                                <button class="btn btn-primary w-100">Book nu</button>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4 mb-4">
+                            <div class="dashboard-card">
+                                <h3 class="h5 mb-3">Østerbro Residential</h3>
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <span class="badge badge-active">Type 2</span>
+                                    <span class="fw-bold text-primary">kr 32/time</span>
+                                </div>
+                                <p class="mb-2">
+                                    <i class="bi bi-geo-alt me-2"></i>
+                                    Jagtvej 88, 2100 København
+                                </p>
+                                <p class="mb-2">
+                                    <i class="bi bi-lightning-charge me-2"></i>
+                                    11 kW
+                                </p>
+                                <p class="mb-3">
+                                    <i class="bi bi-star-fill me-2 text-warning"></i>
+                                    4.2/5 (8 anmeldelser)
+                                </p>
+                                <button class="btn btn-primary w-100">Book nu</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Reservations Section -->
+                <section id="reservations-section" class="dashboard-section d-none">
+                    <div class="dashboard-header">
+                        <h1 class="page-title">Mine reservationer</h1>
+                        <div class="btn-group">
+                            <button class="btn btn-outline-primary active">Alle</button>
+                            <button class="btn btn-outline-primary">Kommende</button>
+                            <button class="btn btn-outline-primary">Gennemførte</button>
+                        </div>
                     </div>
                     
                     {% if reservations %}
                     <div class="table-container">
                         <div class="table-responsive">
-                            <table class="table table-hover">
+                            <table class="table dashboard-table">
                                 <thead>
                                     <tr>
-                                        <th>Charger</th>
-                                        <th>Start Time</th>
-                                        <th>End Time</th>
-                                        <th>Duration</th>
-                                        <th>Total Price</th>
+                                        <th>Ladestander</th>
+                                        <th>Dato</th>
+                                        <th>Tid</th>
+                                        <th>Varighed</th>
+                                        <th>Pris</th>
                                         <th>Status</th>
-                                        <th>Actions</th>
+                                        <th>Handling</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {% for reservation in reservations %}
                                     <tr>
                                         <td>{{ reservation.charger.name }}</td>
-                                        <td>{{ reservation.start_time.strftime('%Y-%m-%d %H:%M') }}</td>
-                                        <td>{{ reservation.end_time.strftime('%Y-%m-%d %H:%M') }}</td>
-                                        <td>{{ '%0.1f'|format(reservation.get_duration_hours()) }} hours</td>
+                                        <td>{{ reservation.start_time.strftime('%d/%m/%Y') }}</td>
+                                        <td>{{ reservation.start_time.strftime('%H:%M') }} - {{ reservation.end_time.strftime('%H:%M') }}</td>
+                                        <td>{{ '%0.1f'|format(reservation.get_duration_hours()) }} timer</td>
                                         <td>kr {{ '%0.2f'|format(reservation.total_price) }}</td>
                                         <td>
                                             {% if reservation.status == 'confirmed' %}
-                                            <span class="badge bg-primary">Confirmed</span>
+                                            <span class="badge badge-active">Bekræftet</span>
                                             {% elif reservation.status == 'completed' %}
-                                            <span class="badge bg-success">Completed</span>
+                                            <span class="badge badge-completed">Gennemført</span>
                                             {% elif reservation.status == 'pending' %}
-                                            <span class="badge" style="background-color: var(--cs-green-light); color: var(--cs-green-dark);">Pending</span>
+                                            <span class="badge badge-pending">Afventer</span>
                                             {% elif reservation.status == 'cancelled' %}
-                                            <span class="badge bg-danger">Cancelled</span>
+                                            <span class="badge badge-canceled">Annulleret</span>
                                             {% endif %}
                                         </td>
                                         <td>
-                                            {% if reservation.status == 'confirmed' %}
-                                            <form action="{{ url_for('complete_reservation', reservation_id=reservation.id) }}" method="POST" style="display: inline;">
-                                                <button type="submit" class="btn btn-sm btn-success">Complete</button>
-                                            </form>
-                                            {% elif reservation.status == 'completed' %}
-                                            <button class="btn btn-sm btn-outline-secondary">Rate</button>
-                                            {% endif %}
+                                            <div class="table-actions">
+                                                {% if reservation.status == 'confirmed' %}
+                                                <form action="{{ url_for('complete_reservation', reservation_id=reservation.id) }}" method="POST" style="display: inline;">
+                                                    <button type="submit" class="btn btn-sm btn-success">Afslut</button>
+                                                </form>
+                                                {% elif reservation.status == 'completed' %}
+                                                <button class="btn btn-sm btn-outline-primary">
+                                                    <i class="bi bi-star"></i>
+                                                </button>
+                                                {% endif %}
+                                                <button class="btn btn-sm btn-outline-secondary">
+                                                    <i class="bi bi-three-dots"></i>
+                                                </button>
+                                            </div>
                                         </td>
                                     </tr>
                                     {% endfor %}
@@ -446,35 +1171,40 @@
                         </div>
                     </div>
                     {% else %}
-                    <div class="alert alert-info">
-                        <p>You don't have any active reservations. <a href="#find-chargers" class="alert-link" style="color: var(--cs-green);">Find a charger</a> to make a reservation.</p>
+                    <div class="dashboard-card text-center py-5">
+                        <img src="{{ url_for('static', filename='images/empty-reservations.svg') }}" alt="No reservations" class="mb-4" style="width: 150px;">
+                        <h3 class="h4 mb-3">Ingen reservationer endnu</h3>
+                        <p class="text-muted mb-4">Du har ingen aktive reservationer. Find en ladestander for at lave en reservation.</p>
+                        <a href="#findchargers" class="btn btn-primary tab-link" data-target="findchargers-section">
+                            <i class="bi bi-search me-2"></i> Find ladestandere
+                        </a>
                     </div>
                     {% endif %}
-                </div>
+                </section>
             </div>
         </div>
     </div>
 </div>
 
 <!-- Add Charger Modal -->
-<div class="modal fade" id="addChargerModal" tabindex="-1" aria-labelledby="addChargerModalLabel" aria-hidden="true">
+<div class="modal fade charger-modal" id="addChargerModal" tabindex="-1" aria-labelledby="addChargerModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="addChargerModalLabel">Add New Charger</h5>
+                <h5 class="modal-title" id="addChargerModalLabel">Tilføj ny ladestander</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form id="addChargerForm">
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label for="chargerName" class="form-label">Charger Name</label>
-                            <input type="text" class="form-control" id="chargerName" name="name" required>
+                            <label for="chargerName" class="form-label">Ladestandernavn</label>
+                            <input type="text" class="form-control" id="chargerName" name="name" placeholder="F.eks. 'Hjemmelader Østerbro'" required>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label for="chargerType" class="form-label">Charger Type</label>
+                            <label for="chargerType" class="form-label">Ladertype</label>
                             <select class="form-select" id="chargerType" name="charger_type" required>
-                                <option value="">Select type</option>
+                                <option value="" selected disabled>Vælg type</option>
                                 <option value="Type 2">Type 2</option>
                                 <option value="CCS">CCS</option>
                                 <option value="CHAdeMO">CHAdeMO</option>
@@ -483,257 +1213,199 @@
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label for="address" class="form-label">Address</label>
-                        <input type="text" class="form-control" id="address" name="address" required>
+                        <label for="address" class="form-label">Adresse</label>
+                        <input type="text" class="form-control" id="address" name="address" placeholder="Indtast den fulde adresse" required>
                     </div>
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label for="latitude" class="form-label">Latitude</label>
-                            <input type="number" step="any" class="form-control" id="latitude" name="latitude" required>
+                            <label for="latitude" class="form-label">Breddegrad</label>
+                            <div class="input-group">
+                                <input type="number" step="any" class="form-control" id="latitude" name="latitude" placeholder="F.eks. 55.6761" required>
+                                <button class="btn btn-outline-secondary" type="button" id="getLocationBtn">
+                                    <i class="bi bi-geo-alt"></i>
+                                </button>
+                            </div>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label for="longitude" class="form-label">Longitude</label>
-                            <input type="number" step="any" class="form-control" id="longitude" name="longitude" required>
+                            <label for="longitude" class="form-label">Længdegrad</label>
+                            <input type="number" step="any" class="form-control" id="longitude" name="longitude" placeholder="F.eks. 12.5683" required>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label for="powerOutput" class="form-label">Power Output (kW)</label>
-                            <input type="number" step="0.1" class="form-control" id="powerOutput" name="power_output" required>
+                            <label for="powerOutput" class="form-label">Effekt (kW)</label>
+                            <input type="number" step="0.1" class="form-control" id="powerOutput" name="power_output" placeholder="F.eks. 11, 22, 150" required>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label for="pricePerHour" class="form-label">Price per Hour (DKK)</label>
-                            <input type="number" step="0.01" class="form-control" id="pricePerHour" name="price_per_hour" required>
+                            <label for="pricePerHour" class="form-label">Pris pr. time (kr)</label>
+                            <div class="input-group">
+                                <span class="input-group-text">kr</span>
+                                <input type="number" step="0.01" class="form-control" id="pricePerHour" name="price_per_hour" placeholder="F.eks. 45" required>
+                            </div>
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Availability</label>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="availableWeekdays" checked>
-                            <label class="form-check-label" for="availableWeekdays">Weekdays</label>
+                        <label class="form-label">Tilgængelighed</label>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" id="availableWeekdays" checked>
+                                    <label class="form-check-label" for="availableWeekdays">Hverdage</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="availableWeekends" checked>
+                                    <label class="form-check-label" for="availableWeekends">Weekender</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <label for="availableFrom" class="form-label small">Fra kl.</label>
+                                        <input type="time" class="form-control" id="availableFrom" value="08:00">
+                                    </div>
+                                    <div class="col-6">
+                                        <label for="availableTo" class="form-label small">Til kl.</label>
+                                        <input type="time" class="form-control" id="availableTo" value="22:00">
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="availableWeekends" checked>
-                            <label class="form-check-label" for="availableWeekends">Weekends</label>
-                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="chargerDescription" class="form-label">Beskrivelse (valgfri)</label>
+                        <textarea class="form-control" id="chargerDescription" name="description" rows="3" placeholder="Beskriv din lader, adgangsforhold, parkeringssituation mv."></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="chargerImage" class="form-label">Billede af ladestander (valgfri)</label>
+                        <input type="file" class="form-control" id="chargerImage" name="image">
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary" id="submitCharger">Add Charger</button>
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Annuller</button>
+                <button type="button" class="btn btn-primary" id="submitCharger">Tilføj ladestander</button>
             </div>
         </div>
     </div>
 </div>
 {% endblock %}
 
-
-{% block head %}
-{{ super() }}
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-     crossorigin=""/>
-{% endblock %}
-
 {% block scripts %}
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-     crossorigin=""></script>
+<!-- Include Leaflet.js for the map -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
 
 <script>
-    // Sidebar link active state
-    const sidebarLinks = document.querySelectorAll('.sidebar-link');
-    sidebarLinks.forEach(link => {
-        link.addEventListener('click', function() {
-            sidebarLinks.forEach(l => l.classList.remove('active'));
-            this.classList.add('active');
-        });
-    });
-    
-    // Smooth scroll for sidebar links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const targetId = this.getAttribute('href');
-            const targetElement = document.querySelector(targetId);
-            if (targetElement) {
-                window.scrollTo({
-                    top: targetElement.offsetTop - 20,
-                    behavior: 'smooth'
-                });
-            }
-        });
-    });
-    
-    // Simplified client-side form handling
-    document.getElementById('submitCharger').addEventListener('click', function() {
-        const form = document.getElementById('addChargerForm');
-        
-        // In a real app, you would validate and submit via AJAX
-        // This is a simplified example that just simulates a successful submit
-        alert('Charger added successfully!');
-        
-        // Close the modal
-        var modal = bootstrap.Modal.getInstance(document.getElementById('addChargerModal'));
-        modal.hide();
-        
-        // Refresh the page to show the new charger
-        // In a real app, you would update the DOM instead
-        setTimeout(() => {
-            window.location.reload();
-        }, 500);
-    });
-    
-    // Initialize OpenStreetMap
     document.addEventListener('DOMContentLoaded', function() {
-        // Create map centered on Copenhagen, Denmark
-        const mapContainer = document.getElementById('map');
+        // Initialize sidebar navigation
+        const sidebarLinks = document.querySelectorAll('.sidebar-menu-link');
+        const sections = document.querySelectorAll('.dashboard-section');
         
-        // Ensure the map fits within the container's boundaries
-        const map = L.map('map', {
-            scrollWheelZoom: true,
-            attributionControl: true,
-            zoomControl: true
-        }).setView([55.6761, 12.5683], 12);
+        sidebarLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Remove active class from all links and hide all sections
+                sidebarLinks.forEach(l => l.classList.remove('active'));
+                sections.forEach(s => s.classList.add('d-none'));
+                
+                // Add active class to clicked link and show corresponding section
+                this.classList.add('active');
+                const targetId = this.getAttribute('data-target');
+                document.getElementById(targetId).classList.remove('d-none');
+            });
+        });
         
-        // Add OpenStreetMap tiles
+        // Tab links within sections
+        const tabLinks = document.querySelectorAll('.tab-link');
+        
+        tabLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Find the corresponding sidebar link and click it
+                const targetId = this.getAttribute('data-target');
+                const sidebarLink = document.querySelector(`.sidebar-menu-link[data-target="${targetId}"]`);
+                
+                if (sidebarLink) {
+                    sidebarLink.click();
+                }
+            });
+        });
+        
+        // Initialize map for the findchargers section
+        const map = L.map('map').setView([55.6761, 12.5683], 13);
+        
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
         
-        // Custom icon for charger markers
-        function createChargerMarker(charger) {
-            // Create custom HTML element for marker
-            const markerHtml = `
-                <div class="charger-marker">
-                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M11 21l-1-8.4h-3.5l7-12.6 1 8.4h3.5l-7 12.6z" fill="white"/>
-                    </svg>
-                </div>
-            `;
-            
-            const icon = L.divIcon({
-                html: markerHtml,
+        // Custom marker icon
+        const createMarkerIcon = () => {
+            return L.divIcon({
+                html: `<div class="marker-icon"><i class="bi bi-lightning-charge-fill"></i></div>`,
                 className: '',
-                iconSize: [36, 36],
-                iconAnchor: [18, 36]
+                iconSize: [40, 40],
+                iconAnchor: [20, 40],
+                popupAnchor: [0, -40]
             });
+        };
+        
+        // Sample charger data
+        const chargers = [
+            { id: 1, name: 'Central Station Charger', lat: 55.6728, lng: 12.5646, type: 'Type 2', power: 22, price: 45 },
+            { id: 2, name: 'Nørreport Fast Charger', lat: 55.6833, lng: 12.5714, type: 'CCS', power: 150, price: 95 },
+            { id: 3, name: 'Østerbro Residential', lat: 55.6986, lng: 12.5542, type: 'Type 2', power: 11, price: 32 },
+            { id: 4, name: 'Amager Beach Charger', lat: 55.6584, lng: 12.6318, type: 'CHAdeMO', power: 50, price: 65 },
+            { id: 5, name: 'Frederiksberg Gardens', lat: 55.6722, lng: 12.5258, type: 'Tesla', power: 16.5, price: 55 }
+        ];
+        
+        // Add markers to map
+        chargers.forEach(charger => {
+            const marker = L.marker([charger.lat, charger.lng], { icon: createMarkerIcon() }).addTo(map);
             
-            // Create marker with custom icon
-            const marker = L.marker([charger.latitude, charger.longitude], {icon: icon});
-            
-            // Add popup with charger info
             const popupContent = `
-                <div class="charger-popup">
+                <div class="marker-popup">
                     <h5>${charger.name}</h5>
-                    <div class="charger-type">${charger.charger_type}</div>
-                    <div class="charger-address">${charger.address}</div>
-                    <div class="charger-power">${charger.power_output} kW</div>
-                    <div class="charger-price">kr ${charger.price_per_hour.toFixed(2)}/hour</div>
-                    <div class="charger-rating">★★★★☆ (${charger.rating})</div>
-                    <div class="charger-actions">
-                        <button class="btn btn-sm btn-primary reserve-btn" data-charger-id="${charger.id}">Reserve</button>
-                    </div>
+                    <span class="marker-type">${charger.type}</span>
+                    <p class="marker-power">Effekt: ${charger.power} kW</p>
+                    <p class="marker-price">Pris: kr ${charger.price}/time</p>
+                    <button class="btn btn-sm btn-primary">Book nu</button>
                 </div>
             `;
             
             marker.bindPopup(popupContent);
-            return marker;
-        }
-        
-        // Sample charger data - this would be fetched from the server in a real app
-        const sampleChargers = [
-            {
-                id: 1,
-                name: "Central Station Charger",
-                address: "Bernstorffsgade 16, 1577 København",
-                latitude: 55.6728,
-                longitude: 12.5646,
-                charger_type: "Type 2",
-                power_output: 22,
-                price_per_hour: 45.0,
-                rating: 4.5
-            },
-            {
-                id: 2,
-                name: "Nørreport Fast Charger",
-                address: "Frederiksborggade 18, 1360 København",
-                latitude: 55.6833,
-                longitude: 12.5714,
-                charger_type: "CCS",
-                power_output: 150,
-                price_per_hour: 95.0,
-                rating: 4.8
-            },
-            {
-                id: 3,
-                name: "Østerbro Residential",
-                address: "Jagtvej 88, 2100 København",
-                latitude: 55.6986,
-                longitude: 12.5542,
-                charger_type: "Type 2",
-                power_output: 11,
-                price_per_hour: 32.0,
-                rating: 4.2
-            },
-            {
-                id: 4,
-                name: "Amager Beach Charger",
-                address: "Amager Strandvej 110, 2300 København",
-                latitude: 55.6584,
-                longitude: 12.6318,
-                charger_type: "CHAdeMO",
-                power_output: 50,
-                price_per_hour: 65.0,
-                rating: 4.0
-            },
-            {
-                id: 5,
-                name: "Frederiksberg Gardens",
-                address: "Pile Allé, 2000 Frederiksberg",
-                latitude: 55.6722,
-                longitude: 12.5258,
-                charger_type: "Tesla",
-                power_output: 16.5,
-                price_per_hour: 55.0,
-                rating: 4.7
-            }
-        ];
-        
-        // Add chargers to map
-        sampleChargers.forEach(charger => {
-            createChargerMarker(charger).addTo(map);
         });
         
-        // Get user location and zoom to it
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(position => {
-                const userLat = position.coords.latitude;
-                const userLng = position.coords.longitude;
-                
-                // Add user location marker
-                L.marker([userLat, userLng], {
-                    icon: L.divIcon({
-                        html: '<div style="background-color: #4285F4; width: 16px; height: 16px; border-radius: 50%; border: 2px solid white;"></div>',
-                        className: '',
-                        iconSize: [16, 16],
-                        iconAnchor: [8, 8]
-                    })
-                }).addTo(map).bindPopup('Your location');
-                
-                // Center map on user location
-                map.setView([userLat, userLng], 13);
-            });
-        }
-        
-        // Add click listeners for reserve buttons
-        document.addEventListener('click', function(e) {
-            if (e.target && e.target.classList.contains('reserve-btn')) {
-                const chargerId = e.target.getAttribute('data-charger-id');
-                alert(`Reservation interface for charger ${chargerId} would open here.`);
+        // Geolocation for the add charger form
+        document.getElementById('getLocationBtn').addEventListener('click', function() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(position => {
+                    document.getElementById('latitude').value = position.coords.latitude;
+                    document.getElementById('longitude').value = position.coords.longitude;
+                }, error => {
+                    console.error('Error getting location: ', error);
+                    alert('Kunne ikke hente din placering. Indtast venligst koordinater manuelt.');
+                });
+            } else {
+                alert('Geolocation understøttes ikke af din browser. Indtast venligst koordinater manuelt.');
             }
+        });
+        
+        // Add charger form submission
+        document.getElementById('submitCharger').addEventListener('click', function() {
+            // In a real app, this would be an AJAX call to the backend
+            alert('Ladestanderen er blevet tilføjet!');
+            
+            // Close the modal
+            const modal = bootstrap.Modal.getInstance(document.getElementById('addChargerModal'));
+            modal.hide();
+            
+            // Refresh to show the new charger
+            setTimeout(() => {
+                window.location.reload();
+            }, 500);
         });
     });
 </script>

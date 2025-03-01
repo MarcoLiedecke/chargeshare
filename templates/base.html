@@ -4,164 +4,264 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}ChargeShare{% endblock %}</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --cs-green-light: #8ECF9B;
-            --cs-green: #4CAF50;
-            --cs-green-dark: #2E7D32;
-            --cs-grey-light: #F5F5F5;
-            --cs-grey: #E0E0E0;
-            --cs-grey-dark: #9E9E9E;
+            /* Modern Color Palette */
+            --cs-primary: #0EAD69;       /* Primary Green */
+            --cs-primary-light: #3EE695; /* Light Green */
+            --cs-primary-dark: #088951;  /* Dark Green */
+            --cs-secondary: #2563EB;     /* Blue */
+            --cs-secondary-light: #60A5FA; /* Light Blue */
+            --cs-accent: #F97316;        /* Orange */
+            --cs-light: #F8FAFC;         /* Light Background */
+            --cs-dark: #1E293B;          /* Dark Text */
+            --cs-gray-100: #F1F5F9;      /* Light Gray */
+            --cs-gray-200: #E2E8F0;      /* Medium Light Gray */
+            --cs-gray-300: #CBD5E1;      /* Medium Gray */
+            --cs-gray-800: #334155;      /* Dark Gray */
+            
+            /* Shape Properties */
+            --cs-border-radius: 16px;    /* Rounded corners */
+            --cs-border-radius-sm: 8px;  /* Smaller rounded corners */
+            --cs-shadow: 0 8px 24px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04);
+            --cs-transition: all 0.2s ease-in-out;
         }
         
         body {
-            font-family: 'Inter', 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
-            background-color: var(--cs-grey-light);
-            color: #333;
-            position: relative;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background-color: var(--cs-light);
+            color: var(--cs-dark);
+            line-height: 1.6;
             overflow-x: hidden;
         }
         
+        h1, h2, h3, h4, h5, h6, .display-1, .display-2, .display-3, .display-4, .display-5, .display-6 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+        }
+
         /* Navigation */
         .navbar {
             background-color: white;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            padding: 16px 0;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
         
         .navbar-brand {
-            font-weight: 600;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
             display: flex;
             align-items: center;
-        }
-        
-        .navbar-brand svg {
-            margin-right: 0.5rem;
+            gap: 10px;
+            font-size: 1.5rem;
         }
         
         .nav-link {
             font-weight: 500;
             display: flex;
             align-items: center;
-            padding: 0.5rem 1rem;
+            gap: 8px;
+            padding: 10px 16px;
+            border-radius: var(--cs-border-radius-sm);
+            transition: var(--cs-transition);
+            color: var(--cs-gray-800);
         }
         
-        .nav-link svg {
-            margin-right: 0.5rem;
+        .nav-link:hover {
+            background-color: var(--cs-gray-100);
+            color: var(--cs-primary);
         }
         
         .nav-link.active {
-            color: var(--cs-green);
-            border-bottom: 2px solid var(--cs-green);
+            background-color: var(--cs-primary-light);
+            color: var(--cs-primary-dark);
         }
         
         /* Buttons */
+        .btn {
+            padding: 10px 20px;
+            border-radius: var(--cs-border-radius-sm);
+            font-weight: 600;
+            transition: var(--cs-transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
         .btn-primary {
-            background-color: var(--cs-green);
-            border-color: var(--cs-green);
+            background-color: var(--cs-primary);
+            border-color: var(--cs-primary);
         }
         
         .btn-primary:hover, .btn-primary:focus {
-            background-color: var(--cs-green-dark);
-            border-color: var(--cs-green-dark);
+            background-color: var(--cs-primary-dark);
+            border-color: var(--cs-primary-dark);
+        }
+        
+        .btn-secondary {
+            background-color: var(--cs-secondary);
+            border-color: var(--cs-secondary);
+        }
+        
+        .btn-secondary:hover, .btn-secondary:focus {
+            background-color: var(--cs-secondary-light);
+            border-color: var(--cs-secondary-light);
+        }
+        
+        .btn-accent {
+            background-color: var(--cs-accent);
+            border-color: var(--cs-accent);
+            color: white;
         }
         
         .btn-outline-primary {
-            color: var(--cs-green);
-            border-color: var(--cs-green);
+            color: var(--cs-primary);
+            border-color: var(--cs-primary);
         }
         
         .btn-outline-primary:hover, .btn-outline-primary:focus {
-            background-color: var(--cs-green);
-            border-color: var(--cs-green);
+            background-color: var(--cs-primary);
+            border-color: var(--cs-primary);
         }
         
         /* Cards */
         .card {
-            border-radius: 10px;
+            border-radius: var(--cs-border-radius);
             border: none;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: var(--cs-shadow);
+            overflow: hidden;
+            transition: var(--cs-transition);
         }
         
         .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12), 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+        
+        .card-img-top {
+            height: 200px;
+            object-fit: cover;
         }
         
         /* Footer */
         .footer {
-            background-color: white;
-            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
-            color: #333;
+            background-color: var(--cs-dark);
+            color: white;
+            padding: 64px 0 32px;
         }
         
-        /* Background Animation */
-        .bg-animation {
+        .footer h5 {
+            color: white;
+            font-weight: 600;
+            margin-bottom: 24px;
+        }
+        
+        .footer-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-links a {
+            color: var(--cs-gray-300);
+            text-decoration: none;
+            transition: var(--cs-transition);
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 24px;
+            margin-top: 48px;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 16px;
+        }
+        
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            transition: var(--cs-transition);
+        }
+        
+        .social-link:hover {
+            background-color: var(--cs-primary);
+            transform: translateY(-4px);
+        }
+
+        /* Electric elements animations */
+        .electric-anim {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
+            pointer-events: none;
             z-index: -1;
             overflow: hidden;
         }
         
-        .bg-animation .lightning {
+        .electric-particle {
+            position: absolute;
+            background-color: var(--cs-primary-light);
+            border-radius: 50%;
+            opacity: 0.2;
+            filter: blur(20px);
+            animation: float 25s infinite ease-in-out;
+        }
+        
+        .electric-bolt {
             position: absolute;
             opacity: 0.08;
-            animation: float 15s infinite ease-in-out;
-        }
-        
-        .bg-animation .lightning:nth-child(1) {
-            width: 300px;
-            height: 300px;
-            top: -150px;
-            left: -150px;
-            animation-delay: 0s;
-            transform: rotate(15deg);
-        }
-        
-        .bg-animation .lightning:nth-child(2) {
-            width: 400px;
-            height: 400px;
-            top: 30%;
-            right: -200px;
-            animation-delay: 1s;
-            transform: rotate(-10deg);
-        }
-        
-        .bg-animation .lightning:nth-child(3) {
-            width: 250px;
-            height: 250px;
-            bottom: -100px;
-            left: 20%;
-            animation-delay: 2s;
-            transform: rotate(5deg);
-        }
-        
-        .bg-animation .lightning:nth-child(4) {
-            width: 200px;
-            height: 200px;
-            top: 15%;
-            left: 30%;
-            animation-delay: 3s;
-            transform: rotate(-5deg);
+            animation: float 30s infinite ease-in-out;
         }
         
         @keyframes float {
             0%, 100% {
-                transform: translateY(0) rotate(0deg);
+                transform: translate(0, 0);
             }
             25% {
-                transform: translateY(-20px) rotate(5deg);
+                transform: translate(-20px, 20px);
             }
             50% {
-                transform: translateY(0) rotate(0deg);
+                transform: translate(10px, -15px);
             }
             75% {
-                transform: translateY(20px) rotate(-5deg);
+                transform: translate(15px, 10px);
+            }
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 12px 0;
+            }
+            
+            .nav-link {
+                padding: 8px 12px;
             }
         }
         
@@ -170,19 +270,17 @@
     </style>
 </head>
 <body>
-    <!-- Background Animation -->
-    <div class="bg-animation">
-        <svg class="lightning lightning-1" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M11 21l-1-8.4h-3.5l7-12.6 1 8.4h3.5l-7 12.6z" fill="var(--cs-green)"/>
+    <!-- Electric Animation Background -->
+    <div class="electric-anim">
+        <div class="electric-particle" style="width: 300px; height: 300px; top: 10%; left: 5%; animation-delay: 0s;"></div>
+        <div class="electric-particle" style="width: 400px; height: 400px; top: 60%; right: 5%; animation-delay: 5s;"></div>
+        <div class="electric-particle" style="width: 250px; height: 250px; bottom: 10%; left: 30%; animation-delay: 3s;"></div>
+        
+        <svg class="electric-bolt" style="width: 200px; height: 200px; top: 15%; right: 20%; animation-delay: 2s;" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M11 21l-1-8.4h-3.5l7-12.6 1 8.4h3.5l-7 12.6z" fill="var(--cs-primary)"/>
         </svg>
-        <svg class="lightning lightning-2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M11 21l-1-8.4h-3.5l7-12.6 1 8.4h3.5l-7 12.6z" fill="var(--cs-green)"/>
-        </svg>
-        <svg class="lightning lightning-3" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M11 21l-1-8.4h-3.5l7-12.6 1 8.4h3.5l-7 12.6z" fill="var(--cs-green)"/>
-        </svg>
-        <svg class="lightning lightning-4" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M11 21l-1-8.4h-3.5l7-12.6 1 8.4h3.5l-7 12.6z" fill="var(--cs-green)"/>
+        <svg class="electric-bolt" style="width: 150px; height: 150px; bottom: 30%; left: 15%; animation-delay: 6s;" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M11 21l-1-8.4h-3.5l7-12.6 1 8.4h3.5l-7 12.6z" fill="var(--cs-primary)"/>
         </svg>
     </div>
 
@@ -190,10 +288,8 @@
     <nav class="navbar navbar-expand-lg navbar-light">
         <div class="container">
             <a class="navbar-brand" href="{{ url_for('index') }}">
-                <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M15 2C8.373 2 3 7.373 3 14C3 20.627 8.373 26 15 26C21.627 26 27 20.627 27 14C27 7.373 21.627 2 15 2ZM15 4C20.523 4 25 8.477 25 14C25 19.523 20.523 24 15 24C9.477 24 5 19.523 5 14C5 8.477 9.477 4 15 4Z" fill="#4CAF50"/>
-                    <path d="M14 6.5V14.5H19.5L19 16H12V6.5H14Z" fill="#4CAF50"/>
-                    <path d="M17.5 7.5L22 12L17.5 16.5V7.5Z" fill="#4CAF50"/>
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M11 1L8 12H14L13 23L23 8H15L19 1H11Z" fill="var(--cs-primary)" stroke="var(--cs-primary-dark)" stroke-width="1.5"/>
                 </svg>
                 ChargeShare
             </a>
@@ -205,44 +301,32 @@
                     {% block nav_items %}
                     <li class="nav-item">
                         <a class="nav-link {% if request.path == url_for('index') %}active{% endif %}" href="{{ url_for('index') }}">
-                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M10 2.5L2 8.5V17.5H7V11.5H13V17.5H18V8.5L10 2.5Z" fill="currentColor"/>
-                            </svg>
+                            <i class="bi bi-house-fill"></i>
                             Home
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#how-it-works">
-                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M10 2C5.582 2 2 5.582 2 10C2 14.418 5.582 18 10 18C14.418 18 18 14.418 18 10C18 5.582 14.418 2 10 2ZM11 14H9V12H11V14ZM11 11H9V6H11V11Z" fill="currentColor"/>
-                            </svg>
+                            <i class="bi bi-lightning-charge-fill"></i>
                             How It Works
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#features">
-                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M10 2L12.472 7.02779L18 7.9443L14 11.9722L15.0556 17.5L10 14.8889L4.94444 17.5L6 11.9722L2 7.9443L7.52779 7.02779L10 2Z" fill="currentColor"/>
-                            </svg>
+                            <i class="bi bi-star-fill"></i>
                             Features
                         </a>
                     </li>
                     {% endblock %}
                 </ul>
                 {% block nav_right %}
-                <div class="d-flex">
-                    <a href="{{ url_for('login') }}" class="btn btn-outline-primary me-2">
-                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M10 2C8.897 2 8 2.897 8 4C8 5.103 8.897 6 10 6C11.103 6 12 5.103 12 4C12 2.897 11.103 2 10 2ZM10 7C7.794 7 6 8.794 6 11V13H14V11C14 8.794 12.206 7 10 7Z" fill="currentColor"/>
-                            <path d="M5 13C3.895 13 3 13.895 3 15V16C3 16.552 3.448 17 4 17H16C16.552 17 17 16.552 17 16V15C17 13.895 16.105 13 15 13H5Z" fill="currentColor"/>
-                        </svg>
+                <div class="d-flex gap-2">
+                    <a href="{{ url_for('login') }}" class="btn btn-outline-primary">
+                        <i class="bi bi-person-fill"></i>
                         Login
                     </a>
                     <a href="{{ url_for('register') }}" class="btn btn-primary">
-                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M10 2C8.897 2 8 2.897 8 4C8 5.103 8.897 6 10 6C11.103 6 12 5.103 12 4C12 2.897 11.103 2 10 2ZM10 7C7.794 7 6 8.794 6 11V13H14V11C14 8.794 12.206 7 10 7Z" fill="currentColor"/>
-                            <path d="M14 7H16V9H18V11H16V13H14V11H12V9H14V7Z" fill="currentColor"/>
-                        </svg>
+                        <i class="bi bi-person-plus-fill"></i>
                         Register
                     </a>
                 </div>
@@ -255,39 +339,66 @@
     {% block content %}{% endblock %}
 
     <!-- Footer -->
-    <footer class="footer py-4 mt-5">
+    <footer class="footer">
         <div class="container">
             <div class="row">
-                <div class="col-md-4 mb-4">
-                    <h5>ChargeShare</h5>
-                    <p>Making EV charging accessible for everyone through the power of sharing economy.</p>
+                <div class="col-lg-4 col-md-6 mb-4 mb-md-0">
+                    <div class="d-flex align-items-center gap-2 mb-4">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M11 1L8 12H14L13 23L23 8H15L19 1H11Z" fill="var(--cs-primary)" stroke="white" stroke-width="1.5"/>
+                        </svg>
+                        <h5 class="mb-0">ChargeShare</h5>
+                    </div>
+                    <p class="mb-4">Empowering electric vehicle owners through shared charging infrastructure. Join our community to earn from your charger or find convenient charging spots.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="social-link"><i class="bi bi-twitter-x"></i></a>
+                        <a href="#" class="social-link"><i class="bi bi-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="bi bi-linkedin"></i></a>
+                    </div>
                 </div>
-                <div class="col-md-4 mb-4">
-                    <h5>Links</h5>
-                    <ul class="list-unstyled">
-                        <li><a href="{{ url_for('index') }}" class="text-decoration-none">Home</a></li>
-                        <li><a href="#how-it-works" class="text-decoration-none">How It Works</a></li>
-                        <li><a href="#features" class="text-decoration-none">Features</a></li>
-                        <li><a href="{{ url_for('login') }}" class="text-decoration-none">Login</a></li>
-                        <li><a href="{{ url_for('register') }}" class="text-decoration-none">Register</a></li>
+                <div class="col-lg-2 col-md-6 mb-4 mb-md-0">
+                    <h5>Pages</h5>
+                    <ul class="footer-links">
+                        <li><a href="{{ url_for('index') }}">Home</a></li>
+                        <li><a href="#how-it-works">How It Works</a></li>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Contact</a></li>
                     </ul>
                 </div>
-                <div class="col-md-4 mb-4">
-                    <h5>Contact</h5>
-                    <ul class="list-unstyled">
-                        <li><a href="mailto:info@chargeshare.dk" class="text-decoration-none">info@chargeshare.dk</a></li>
-                        <li><a href="tel:+4512345678" class="text-decoration-none">+45 12 34 56 78</a></li>
+                <div class="col-lg-2 col-md-6 mb-4 mb-md-0">
+                    <h5>Account</h5>
+                    <ul class="footer-links">
+                        <li><a href="{{ url_for('login') }}">Login</a></li>
+                        <li><a href="{{ url_for('register') }}">Register</a></li>
+                        <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+                        <li><a href="#">My Chargers</a></li>
+                        <li><a href="#">My Reservations</a></li>
                     </ul>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4 mb-md-0">
+                    <h5>Contact Us</h5>
+                    <ul class="footer-links">
+                        <li><i class="bi bi-envelope-fill me-2"></i><a href="mailto:info@chargeshare.dk">info@chargeshare.dk</a></li>
+                        <li><i class="bi bi-telephone-fill me-2"></i><a href="tel:+4598765432">+45 98 76 54 32</a></li>
+                        <li><i class="bi bi-geo-alt-fill me-2"></i>Rådhuspladsen 1, 1550 København</li>
+                    </ul>
+                    <div class="mt-4">
+                        <form class="d-flex">
+                            <input type="email" class="form-control me-2" placeholder="Enter your email">
+                            <button class="btn btn-primary">Subscribe</button>
+                        </form>
+                    </div>
                 </div>
             </div>
-            <hr>
-            <div class="text-center">
-                <p>&copy; 2025 ChargeShare. All rights reserved.</p>
+            <div class="footer-bottom text-center">
+                <p class="mb-0">&copy; {{ '2025' }} ChargeShare ApS. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     {% block scripts %}{% endblock %}
 </body>
 </html>
