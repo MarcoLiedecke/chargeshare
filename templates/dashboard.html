@@ -92,6 +92,16 @@
         align-items: center;
         justify-content: center;
         margin-bottom: 2rem;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    /* Ensure the map is contained within its container */
+    .map-container .leaflet-container {
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        z-index: 1;
     }
     
     .table-container {
@@ -578,7 +588,14 @@
     // Initialize OpenStreetMap
     document.addEventListener('DOMContentLoaded', function() {
         // Create map centered on Copenhagen, Denmark
-        const map = L.map('map').setView([55.6761, 12.5683], 12);
+        const mapContainer = document.getElementById('map');
+        
+        // Ensure the map fits within the container's boundaries
+        const map = L.map('map', {
+            scrollWheelZoom: true,
+            attributionControl: true,
+            zoomControl: true
+        }).setView([55.6761, 12.5683], 12);
         
         // Add OpenStreetMap tiles
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
