@@ -24,7 +24,8 @@ from models.rating import Rating
 
 @login_manager.user_loader
 def load_user(user_id):
-    return User.query.get(int(user_id))
+    # Updated to use Session.get() instead of Query.get() to fix the deprecation warning
+    return db.session.get(User, int(user_id))
 
 # Routes
 @app.route('/')

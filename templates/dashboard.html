@@ -2,7 +2,7 @@
 
 {% block title %}Dashboard - ChargeShare{% endblock %}
 
-{% block additional_styles %}
+{% block head_styles %}
     .dashboard-container {
         margin-top: 2rem;
     }
@@ -122,6 +122,54 @@
     #addChargerModal .modal-header {
         background-color: var(--cs-green);
         color: white;
+    }
+    
+    /* OpenStreetMap Styles */
+    .charger-marker {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        background-color: var(--cs-green);
+        border-radius: 50%;
+        border: 2px solid white;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        color: white;
+    }
+    
+    .charger-marker svg {
+        width: 20px;
+        height: 20px;
+    }
+    
+    .charger-popup .charger-type {
+        display: inline-block;
+        padding: 2px 6px;
+        margin-bottom: 8px;
+        border-radius: 4px;
+        background-color: var(--cs-grey-light);
+        font-size: 12px;
+        font-weight: bold;
+    }
+    
+    .charger-popup .charger-price {
+        font-weight: bold;
+        color: var(--cs-green);
+    }
+    
+    .charger-popup .charger-power {
+        margin-top: 6px;
+        font-weight: 500;
+    }
+    
+    .charger-popup .charger-rating {
+        color: orange;
+        margin-top: 6px;
+    }
+    
+    .charger-popup .charger-actions {
+        margin-top: 10px;
     }
 {% endblock %}
 
@@ -470,173 +518,6 @@
 </div>
 {% endblock %}
 
-{% block additional_styles %}
-    .dashboard-container {
-        margin-top: 2rem;
-    }
-    
-    .sidebar {
-        background-color: white;
-        border-radius: 10px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-        padding: 1.5rem;
-        position: sticky;
-        top: 2rem;
-    }
-    
-    .sidebar-nav {
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-    }
-    
-    .sidebar-link {
-        display: flex;
-        align-items: center;
-        padding: 0.75rem 1rem;
-        border-radius: 8px;
-        color: #333;
-        text-decoration: none;
-        transition: all 0.2s ease;
-    }
-    
-    .sidebar-link:hover {
-        background-color: var(--cs-grey-light);
-    }
-    
-    .sidebar-link.active {
-        background-color: var(--cs-green-light);
-        color: var(--cs-green-dark);
-        font-weight: 500;
-    }
-    
-    .sidebar-link svg {
-        margin-right: 0.75rem;
-        width: 20px;
-        height: 20px;
-    }
-    
-    .dashboard-card {
-        height: 100%;
-    }
-    
-    .stat-card {
-        border-radius: 10px;
-        padding: 1.5rem;
-        height: 100%;
-        position: relative;
-        overflow: hidden;
-    }
-    
-    .stat-card.chargers {
-        background-color: var(--cs-green-light);
-        color: var(--cs-green-dark);
-    }
-    
-    .stat-card.reservations {
-        background-color: var(--cs-green);
-        color: white;
-    }
-    
-    .stat-card.earnings {
-        background-color: var(--cs-green-dark);
-        color: white;
-    }
-    
-    .stat-card .stat-icon {
-        position: absolute;
-        right: -15px;
-        bottom: -15px;
-        opacity: 0.15;
-        font-size: 5rem;
-    }
-    
-    .map-container {
-        height: 400px;
-        width: 100%;
-        background-color: var(--cs-grey-light);
-        border-radius: 10px;
-        margin-bottom: 2rem;
-    }
-    
-    .table-container {
-        background-color: white;
-        border-radius: 10px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-        padding: 1.5rem;
-        margin-bottom: 2rem;
-    }
-
-    .badge {
-        padding: 0.5rem 0.75rem;
-        border-radius: 50px;
-    }
-    
-    .section-title {
-        display: flex;
-        align-items: center;
-        margin-bottom: 1.5rem;
-    }
-    
-    .section-title svg {
-        margin-right: 0.75rem;
-        width: 24px;
-        height: 24px;
-    }
-    
-    #addChargerModal .modal-header {
-        background-color: var(--cs-green);
-        color: white;
-    }
-    
-    /* OpenStreetMap Styles */
-    .charger-marker {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 36px;
-        height: 36px;
-        background-color: var(--cs-green);
-        border-radius: 50%;
-        border: 2px solid white;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        color: white;
-    }
-    
-    .charger-marker svg {
-        width: 20px;
-        height: 20px;
-    }
-    
-    .charger-popup .charger-type {
-        display: inline-block;
-        padding: 2px 6px;
-        margin-bottom: 8px;
-        border-radius: 4px;
-        background-color: var(--cs-grey-light);
-        font-size: 12px;
-        font-weight: bold;
-    }
-    
-    .charger-popup .charger-price {
-        font-weight: bold;
-        color: var(--cs-green);
-    }
-    
-    .charger-popup .charger-power {
-        margin-top: 6px;
-        font-weight: 500;
-    }
-    
-    .charger-popup .charger-rating {
-        color: orange;
-        margin-top: 6px;
-    }
-    
-    .charger-popup .charger-actions {
-        margin-top: 10px;
-    }
-{% endblock %}
 
 {% block head %}
 {{ super() }}
