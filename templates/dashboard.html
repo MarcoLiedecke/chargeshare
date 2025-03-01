@@ -1103,6 +1103,542 @@
                     </div>
                 </section>
                 
+                <!-- Settings Section -->
+                <section id="settings-section" class="dashboard-section d-none">
+                    <div class="dashboard-header">
+                        <h1 class="page-title">Indstillinger</h1>
+                    </div>
+                    
+                    <div class="dashboard-card mb-4">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="nav flex-column nav-pills" id="settings-tab" role="tablist">
+                                    <button class="nav-link active" id="profile-tab" data-bs-toggle="pill" data-bs-target="#profile" type="button" role="tab">
+                                        <i class="bi bi-person me-2"></i>Personlige oplysninger
+                                    </button>
+                                    <button class="nav-link" id="password-tab" data-bs-toggle="pill" data-bs-target="#password" type="button" role="tab">
+                                        <i class="bi bi-shield-lock me-2"></i>Adgangskode
+                                    </button>
+                                    <button class="nav-link" id="payment-tab" data-bs-toggle="pill" data-bs-target="#payment" type="button" role="tab">
+                                        <i class="bi bi-credit-card me-2"></i>Betalingsoplysninger
+                                    </button>
+                                    <button class="nav-link" id="notification-tab" data-bs-toggle="pill" data-bs-target="#notification" type="button" role="tab">
+                                        <i class="bi bi-bell me-2"></i>Notifikationer
+                                    </button>
+                                    <button class="nav-link" id="privacy-tab" data-bs-toggle="pill" data-bs-target="#privacy" type="button" role="tab">
+                                        <i class="bi bi-eye-slash me-2"></i>Privatliv
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-md-9">
+                                <div class="tab-content p-3" id="settings-tabContent">
+                                    <!-- Profile Settings -->
+                                    <div class="tab-pane fade show active" id="profile" role="tabpanel">
+                                        <h4 class="mb-4">Personlige oplysninger</h4>
+                                        <form>
+                                            <div class="mb-3 text-center">
+                                                <img src="{{ url_for('static', filename='images/user-avatar.jpg') }}" alt="User avatar" class="rounded-circle mb-3" style="width: 120px; height: 120px; border: 3px solid var(--cs-primary-light);">
+                                                <div>
+                                                    <button type="button" class="btn btn-sm btn-outline-primary">
+                                                        <i class="bi bi-camera-fill me-2"></i>Skift profilbillede
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <div class="col-md-6">
+                                                    <label for="firstName" class="form-label">Fornavn</label>
+                                                    <input type="text" class="form-control" id="firstName" value="{{ current_user.name.split(' ')[0] }}">
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label for="lastName" class="form-label">Efternavn</label>
+                                                    <input type="text" class="form-control" id="lastName" value="{{ current_user.name.split(' ')[1] if ' ' in current_user.name else '' }}">
+                                                </div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="email" class="form-label">Email</label>
+                                                <input type="email" class="form-control" id="email" value="{{ current_user.email }}">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="phone" class="form-label">Telefonnummer</label>
+                                                <input type="tel" class="form-control" id="phone" value="+45 12 34 56 78">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="address" class="form-label">Adresse</label>
+                                                <textarea class="form-control" id="address" rows="3">Østerbrogade 120, 2100 København Ø</textarea>
+                                            </div>
+                                            <div class="text-end">
+                                                <button type="submit" class="btn btn-primary">Gem ændringer</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    
+                                    <!-- Password Settings -->
+                                    <div class="tab-pane fade" id="password" role="tabpanel">
+                                        <h4 class="mb-4">Skift adgangskode</h4>
+                                        <form>
+                                            <div class="mb-3">
+                                                <label for="currentPassword" class="form-label">Nuværende adgangskode</label>
+                                                <input type="password" class="form-control" id="currentPassword">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="newPassword" class="form-label">Ny adgangskode</label>
+                                                <input type="password" class="form-control" id="newPassword">
+                                                <div class="form-text">Adgangskoden skal være mindst 8 tegn og indeholde både tal og bogstaver.</div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="confirmPassword" class="form-label">Bekræft ny adgangskode</label>
+                                                <input type="password" class="form-control" id="confirmPassword">
+                                            </div>
+                                            <div class="text-end">
+                                                <button type="submit" class="btn btn-primary">Opdater adgangskode</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    
+                                    <!-- Payment Settings -->
+                                    <div class="tab-pane fade" id="payment" role="tabpanel">
+                                        <h4 class="mb-4">Betalingsoplysninger</h4>
+                                        <div class="mb-4">
+                                            <h5 class="mb-3">Gemte betalingskort</h5>
+                                            <div class="card mb-3 border">
+                                                <div class="card-body">
+                                                    <div class="d-flex justify-content-between align-items-center">
+                                                        <div class="d-flex align-items-center">
+                                                            <i class="bi bi-credit-card-2-front fs-3 me-3 text-primary"></i>
+                                                            <div>
+                                                                <div class="fw-bold">Visa •••• 4242</div>
+                                                                <div class="small text-muted">Udløber 03/26</div>
+                                                            </div>
+                                                        </div>
+                                                        <div>
+                                                            <span class="badge bg-primary">Standard</span>
+                                                            <button class="btn btn-sm btn-outline-danger ms-2">Fjern</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <button class="btn btn-outline-primary">
+                                                <i class="bi bi-plus-lg me-2"></i>Tilføj nyt betalingskort
+                                            </button>
+                                        </div>
+                                        
+                                        <div>
+                                            <h5 class="mb-3">Faktureringsadresse</h5>
+                                            <form>
+                                                <div class="mb-3">
+                                                    <label for="billingName" class="form-label">Fulde navn</label>
+                                                    <input type="text" class="form-control" id="billingName" value="{{ current_user.name }}">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="billingAddress" class="form-label">Adresse</label>
+                                                    <textarea class="form-control" id="billingAddress" rows="3">Østerbrogade 120, 2100 København Ø</textarea>
+                                                </div>
+                                                <div class="row mb-3">
+                                                    <div class="col-md-6">
+                                                        <label for="billingCity" class="form-label">By</label>
+                                                        <input type="text" class="form-control" id="billingCity" value="København">
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label for="billingZip" class="form-label">Postnummer</label>
+                                                        <input type="text" class="form-control" id="billingZip" value="2100">
+                                                    </div>
+                                                </div>
+                                                <div class="text-end">
+                                                    <button type="submit" class="btn btn-primary">Gem ændringer</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Notification Settings -->
+                                    <div class="tab-pane fade" id="notification" role="tabpanel">
+                                        <h4 class="mb-4">Notifikationsindstillinger</h4>
+                                        <div class="mb-4">
+                                            <h5 class="mb-3">Email notifikationer</h5>
+                                            <div class="form-check form-switch mb-3">
+                                                <input class="form-check-input" type="checkbox" id="emailReservations" checked>
+                                                <label class="form-check-label" for="emailReservations">Nye reservationer</label>
+                                                <div class="form-text">Få besked via email når du modtager en ny reservationsanmodning.</div>
+                                            </div>
+                                            <div class="form-check form-switch mb-3">
+                                                <input class="form-check-input" type="checkbox" id="emailPayments" checked>
+                                                <label class="form-check-label" for="emailPayments">Betalinger</label>
+                                                <div class="form-text">Få besked via email når du modtager en betaling.</div>
+                                            </div>
+                                            <div class="form-check form-switch mb-3">
+                                                <input class="form-check-input" type="checkbox" id="emailRatings" checked>
+                                                <label class="form-check-label" for="emailRatings">Anmeldelser</label>
+                                                <div class="form-text">Få besked via email når du modtager en ny anmeldelse.</div>
+                                            </div>
+                                            <div class="form-check form-switch mb-3">
+                                                <input class="form-check-input" type="checkbox" id="emailMarketing">
+                                                <label class="form-check-label" for="emailMarketing">Marketing</label>
+                                                <div class="form-text">Modtag nyheder og tilbud via email.</div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div>
+                                            <h5 class="mb-3">Push notifikationer</h5>
+                                            <div class="form-check form-switch mb-3">
+                                                <input class="form-check-input" type="checkbox" id="pushReservations" checked>
+                                                <label class="form-check-label" for="pushReservations">Nye reservationer</label>
+                                                <div class="form-text">Få push-beskeder når du modtager en ny reservationsanmodning.</div>
+                                            </div>
+                                            <div class="form-check form-switch mb-3">
+                                                <input class="form-check-input" type="checkbox" id="pushPayments" checked>
+                                                <label class="form-check-label" for="pushPayments">Betalinger</label>
+                                                <div class="form-text">Få push-beskeder når du modtager en betaling.</div>
+                                            </div>
+                                            <div class="form-check form-switch mb-3">
+                                                <input class="form-check-input" type="checkbox" id="pushRatings">
+                                                <label class="form-check-label" for="pushRatings">Anmeldelser</label>
+                                                <div class="form-text">Få push-beskeder når du modtager en ny anmeldelse.</div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="text-end">
+                                            <button type="submit" class="btn btn-primary">Gem indstillinger</button>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Privacy Settings -->
+                                    <div class="tab-pane fade" id="privacy" role="tabpanel">
+                                        <h4 class="mb-4">Privatlivsindstillinger</h4>
+                                        
+                                        <div class="mb-4">
+                                            <h5 class="mb-3">Synlighed</h5>
+                                            <div class="form-check form-switch mb-3">
+                                                <input class="form-check-input" type="checkbox" id="profileVisible" checked>
+                                                <label class="form-check-label" for="profileVisible">Offentlig profil</label>
+                                                <div class="form-text">Tillad andre brugere at se din profil og anmeldelser.</div>
+                                            </div>
+                                            <div class="form-check form-switch mb-3">
+                                                <input class="form-check-input" type="checkbox" id="locationVisible" checked>
+                                                <label class="form-check-label" for="locationVisible">Præcis placering</label>
+                                                <div class="form-text">Vis den præcise placering af dine ladestandere på kortet.</div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="mb-4">
+                                            <h5 class="mb-3">Datadeling</h5>
+                                            <div class="form-check form-switch mb-3">
+                                                <input class="form-check-input" type="checkbox" id="dataAnalytics" checked>
+                                                <label class="form-check-label" for="dataAnalytics">Analytics</label>
+                                                <div class="form-text">Tillad os at bruge anonymiserede data til at forbedre tjenesten.</div>
+                                            </div>
+                                            <div class="form-check form-switch mb-3">
+                                                <input class="form-check-input" type="checkbox" id="dataPartners">
+                                                <label class="form-check-label" for="dataPartners">Partnere</label>
+                                                <div class="form-text">Del data med vores samarbejdspartnere for at få personaliserede tilbud.</div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="mb-4">
+                                            <h5 class="mb-3">Kontoadministration</h5>
+                                            <button class="btn btn-outline-danger mb-2">
+                                                <i class="bi bi-download me-2"></i>Download mine data
+                                            </button>
+                                            <div class="form-text mb-3">Download en kopi af alle dine personlige data.</div>
+                                            
+                                            <button class="btn btn-outline-danger">
+                                                <i class="bi bi-trash me-2"></i>Slet min konto
+                                            </button>
+                                            <div class="form-text">Dette vil permanent slette din konto og alle dine data.</div>
+                                        </div>
+                                        
+                                        <div class="text-end">
+                                            <button type="submit" class="btn btn-primary">Gem indstillinger</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Help Section -->
+                <section id="help-section" class="dashboard-section d-none">
+                    <div class="dashboard-header">
+                        <h1 class="page-title">Hjælp & Support</h1>
+                    </div>
+                    
+                    <div class="dashboard-card mb-4">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="nav flex-column nav-pills" id="help-tab" role="tablist">
+                                    <button class="nav-link active" id="faq-tab" data-bs-toggle="pill" data-bs-target="#faq" type="button" role="tab">
+                                        <i class="bi bi-question-circle me-2"></i>FAQ
+                                    </button>
+                                    <button class="nav-link" id="guide-tab" data-bs-toggle="pill" data-bs-target="#guide" type="button" role="tab">
+                                        <i class="bi bi-book me-2"></i>Brugervejledning
+                                    </button>
+                                    <button class="nav-link" id="contact-tab" data-bs-toggle="pill" data-bs-target="#contact" type="button" role="tab">
+                                        <i class="bi bi-envelope me-2"></i>Kontakt os
+                                    </button>
+                                    <button class="nav-link" id="tickets-tab" data-bs-toggle="pill" data-bs-target="#tickets" type="button" role="tab">
+                                        <i class="bi bi-ticket-detailed me-2"></i>Mine sager
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-md-9">
+                                <div class="tab-content p-3" id="help-tabContent">
+                                    <!-- FAQ Tab -->
+                                    <div class="tab-pane fade show active" id="faq" role="tabpanel">
+                                        <h4 class="mb-4">Ofte stillede spørgsmål</h4>
+                                        
+                                        <div class="accordion" id="faqAccordion">
+                                            <div class="accordion-item">
+                                                <h2 class="accordion-header" id="headingOne">
+                                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                        Hvordan tilføjer jeg min ladestander?
+                                                    </button>
+                                                </h2>
+                                                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
+                                                    <div class="accordion-body">
+                                                        <p>Du kan nemt tilføje din ladestander ved at klikke på "Tilføj ladestander" knappen på dashboard eller under "Mine ladestandere". Udfyld derefter formularen med oplysninger om din ladestander, herunder type, effekt, placering og pris.</p>
+                                                        <p>Husk at være så præcis som muligt med placeringen, så brugere nemt kan finde din ladestander.</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="accordion-item">
+                                                <h2 class="accordion-header" id="headingTwo">
+                                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                                        Hvordan fungerer betalingerne?
+                                                    </button>
+                                                </h2>
+                                                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#faqAccordion">
+                                                    <div class="accordion-body">
+                                                        <p>Når en bruger reserverer din ladestander, bliver beløbet reserveret på deres betalingskort. Efter at opladningen er gennemført, bliver betalingen gennemført, og pengene bliver overført til din konto inden for 1-3 bankdage.</p>
+                                                        <p>ChargeShare tager et servicegebyr på 10% af beløbet for at dække platformens omkostninger.</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="accordion-item">
+                                                <h2 class="accordion-header" id="headingThree">
+                                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                                        Hvad sker der, hvis der opstår problemer under en reservation?
+                                                    </button>
+                                                </h2>
+                                                <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#faqAccordion">
+                                                    <div class="accordion-body">
+                                                        <p>Hvis der opstår problemer under en reservation, bør både ladeejer og bruger forsøge at løse problemet direkte gennem vores chatfunktion. Hvis dette ikke er muligt, kan begge parter kontakte vores support.</p>
+                                                        <p>Vi har en konfliktløsningsproces for at hjælpe med at løse eventuelle uenigheder. I tilfælde af tekniske problemer med laderen, kan reservationen annulleres uden gebyr.</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="accordion-item">
+                                                <h2 class="accordion-header" id="headingFour">
+                                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                                        Hvordan sikrer jeg min ladestander mod skader?
+                                                    </button>
+                                                </h2>
+                                                <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#faqAccordion">
+                                                    <div class="accordion-body">
+                                                        <p>ChargeShare tilbyder en beskyttelsesordning for ladestandere. Dette dækker skader forårsaget af brugere under reservationer op til 10.000 kr per hændelse.</p>
+                                                        <p>For at være dækket, skal du have taget billeder af din ladestander og have en præcis beskrivelse i din ladestanderprofil. Vi anbefaler også at tage en billeder før og efter hver reservation, hvis muligt.</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="accordion-item">
+                                                <h2 class="accordion-header" id="headingFive">
+                                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                                                        Kan jeg annullere reservationer?
+                                                    </button>
+                                                </h2>
+                                                <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#faqAccordion">
+                                                    <div class="accordion-body">
+                                                        <p>Som ladeejer kan du annullere en reservation op til 24 timer før starttidspunktet uden gebyr. Annulleringer tættere på reservationstidspunktet kan medføre et mindre gebyr og påvirke din rating negativt.</p>
+                                                        <p>Vi anbefaler, at du holder din kalender opdateret og kun accepterer reservationer, når du er sikker på, at din ladestander vil være tilgængelig.</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- User Guide Tab -->
+                                    <div class="tab-pane fade" id="guide" role="tabpanel">
+                                        <h4 class="mb-4">Brugervejledning</h4>
+                                        
+                                        <div class="mb-4">
+                                            <h5><i class="bi bi-1-circle me-2 text-primary"></i>Kom i gang</h5>
+                                            <p>Velkommen til ChargeShare! Her er en hurtig guide til at komme i gang med at dele din ladestander:</p>
+                                            <ol>
+                                                <li class="mb-2">Gå til "Mine ladestandere" i sidemenuen</li>
+                                                <li class="mb-2">Klik på "Tilføj ladestander" knappen</li>
+                                                <li class="mb-2">Udfyld alle oplysninger om din ladestander - vær præcis med placering og adgangsforhold</li>
+                                                <li class="mb-2">Upload gerne billeder af din ladestander og omgivelserne</li>
+                                                <li class="mb-2">Sæt en rimelig timepris baseret på ladestyrke og placering</li>
+                                                <li class="mb-2">Angiv tilgængelighed - hvornår din ladestander kan bruges af andre</li>
+                                                <li>Gem din ladestander, og den vil være synlig for andre brugere!</li>
+                                            </ol>
+                                        </div>
+                                        
+                                        <div class="mb-4">
+                                            <h5><i class="bi bi-2-circle me-2 text-primary"></i>Håndter reservationer</h5>
+                                            <p>Når din ladestander er oprettet, vil du begynde at modtage reservationsanmodninger:</p>
+                                            <ol>
+                                                <li class="mb-2">Du modtager en notifikation, når nogen ønsker at reservere din ladestander</li>
+                                                <li class="mb-2">Gennemgå reservationsdetaljerne (dato, tid, varighed)</li>
+                                                <li class="mb-2">Accepter eller afvis anmodningen inden for 24 timer</li>
+                                                <li class="mb-2">For accepterede reservationer, sørg for at laderen er tilgængelig på det aftalte tidspunkt</li>
+                                                <li>Efter gennemført reservation markeres den som "Gennemført" i systemet</li>
+                                            </ol>
+                                        </div>
+                                        
+                                        <div class="mb-4">
+                                            <h5><i class="bi bi-3-circle me-2 text-primary"></i>Administrer din indtjening</h5>
+                                            <p>ChargeShare gør det nemt at holde styr på din indtjening:</p>
+                                            <ol>
+                                                <li class="mb-2">Se alle betalinger under "Indtjening" i menuen</li>
+                                                <li class="mb-2">Udbetalinger sker automatisk hver måned til din registrerede bankkonto</li>
+                                                <li class="mb-2">Du kan anmode om tidligere udbetaling (min. beløb kr 500)</li>
+                                                <li class="mb-2">Alle transaktioner er dokumenteret med dato, tid og beløb</li>
+                                                <li>Skattemæssigt betragtes indtægter som lejeindtægter - konsulter din revisor for specifik rådgivning</li>
+                                            </ol>
+                                        </div>
+                                        
+                                        <div>
+                                            <h5><i class="bi bi-4-circle me-2 text-primary"></i>Få gode anmeldelser</h5>
+                                            <p>Gode anmeldelser hjælper med at tiltrække flere brugere til din ladestander:</p>
+                                            <ol>
+                                                <li class="mb-2">Sørg for præcis beskrivelse af placering og adgangsforhold</li>
+                                                <li class="mb-2">Hold din ladestander i god stand og sørg for, at den er ren og funktionel</li>
+                                                <li class="mb-2">Vær hurtig til at svare på anmodninger og beskeder</li>
+                                                <li class="mb-2">Vær fleksibel med reservationer, hvis muligt</li>
+                                                <li>Efterlad selv gode anmeldelser til ansvarlige brugere</li>
+                                            </ol>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Contact Tab -->
+                                    <div class="tab-pane fade" id="contact" role="tabpanel">
+                                        <h4 class="mb-4">Kontakt support</h4>
+                                        
+                                        <div class="mb-4">
+                                            <div class="row mb-4">
+                                                <div class="col-md-4 mb-3 mb-md-0">
+                                                    <div class="card h-100 text-center p-4">
+                                                        <i class="bi bi-envelope-fill text-primary fs-1 mb-3"></i>
+                                                        <h5>Email</h5>
+                                                        <p>support@chargeshare.dk</p>
+                                                        <p class="text-muted small">Svar inden for 24 timer</p>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 mb-3 mb-md-0">
+                                                    <div class="card h-100 text-center p-4">
+                                                        <i class="bi bi-telephone-fill text-primary fs-1 mb-3"></i>
+                                                        <h5>Telefon</h5>
+                                                        <p>+45 98 76 54 32</p>
+                                                        <p class="text-muted small">Man-fre: 9-17, Lør: 10-14</p>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="card h-100 text-center p-4">
+                                                        <i class="bi bi-chat-dots-fill text-primary fs-1 mb-3"></i>
+                                                        <h5>Live Chat</h5>
+                                                        <button class="btn btn-outline-primary mt-2">Start chat</button>
+                                                        <p class="text-muted small">Tilgængelig alle dage 8-22</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div>
+                                            <h5 class="mb-3">Send besked</h5>
+                                            <form>
+                                                <div class="mb-3">
+                                                    <label for="subjectSelect" class="form-label">Emne</label>
+                                                    <select class="form-select" id="subjectSelect" required>
+                                                        <option value="" selected disabled>Vælg et emne</option>
+                                                        <option value="technical">Teknisk problem</option>
+                                                        <option value="billing">Betalingsspørgsmål</option>
+                                                        <option value="reservation">Problem med reservation</option>
+                                                        <option value="account">Kontoadministration</option>
+                                                        <option value="other">Andet</option>
+                                                    </select>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="messageText" class="form-label">Besked</label>
+                                                    <textarea class="form-control" id="messageText" rows="5" placeholder="Beskriv dit spørgsmål eller problem så detaljeret som muligt..." required></textarea>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="attachFile" class="form-label">Vedhæft fil (valgfrit)</label>
+                                                    <input class="form-control" type="file" id="attachFile">
+                                                </div>
+                                                <div class="form-check mb-3">
+                                                    <input class="form-check-input" type="checkbox" id="urgentCheck">
+                                                    <label class="form-check-label" for="urgentCheck">
+                                                        Dette er et akut problem
+                                                    </label>
+                                                </div>
+                                                <div class="text-end">
+                                                    <button type="submit" class="btn btn-primary">Send besked</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Tickets Tab -->
+                                    <div class="tab-pane fade" id="tickets" role="tabpanel">
+                                        <h4 class="mb-4">Mine supporthenvendelser</h4>
+                                        
+                                        <div class="table-responsive mb-4">
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Sag #</th>
+                                                        <th>Emne</th>
+                                                        <th>Status</th>
+                                                        <th>Oprettet</th>
+                                                        <th>Seneste svar</th>
+                                                        <th>Handling</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>#2345</td>
+                                                        <td>Problem med betaling</td>
+                                                        <td><span class="badge bg-success">Løst</span></td>
+                                                        <td>28/02/2025</td>
+                                                        <td>01/03/2025</td>
+                                                        <td><button class="btn btn-sm btn-outline-primary">Vis</button></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>#2303</td>
+                                                        <td>Reservation annulleret</td>
+                                                        <td><span class="badge bg-warning text-dark">Afventer svar</span></td>
+                                                        <td>15/02/2025</td>
+                                                        <td>25/02/2025</td>
+                                                        <td><button class="btn btn-sm btn-outline-primary">Vis</button></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>#2287</td>
+                                                        <td>Opdatering af profiloplysninger</td>
+                                                        <td><span class="badge bg-success">Løst</span></td>
+                                                        <td>10/02/2025</td>
+                                                        <td>10/02/2025</td>
+                                                        <td><button class="btn btn-sm btn-outline-primary">Vis</button></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        
+                                        <div class="text-center">
+                                            <button class="btn btn-primary">
+                                                <i class="bi bi-plus-lg me-2"></i>Ny supporthenvendelse
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
                 <!-- Reservations Section -->
                 <section id="reservations-section" class="dashboard-section d-none">
                     <div class="dashboard-header">
