@@ -224,18 +224,9 @@
             overflow: hidden;
         }
         
-        .electric-particle {
-            position: absolute;
-            background-color: var(--cs-primary-light);
-            border-radius: 50%;
-            opacity: 0.2;
-            filter: blur(20px);
-            animation: float 25s infinite ease-in-out;
-        }
-        
         .electric-bolt {
             position: absolute;
-            opacity: 0.08;
+            opacity: 0.12;
             animation: float 30s infinite ease-in-out;
         }
         
@@ -272,14 +263,19 @@
 <body>
     <!-- Electric Animation Background -->
     <div class="electric-anim">
-        <div class="electric-particle" style="width: 300px; height: 300px; top: 10%; left: 5%; animation-delay: 0s;"></div>
-        <div class="electric-particle" style="width: 400px; height: 400px; top: 60%; right: 5%; animation-delay: 5s;"></div>
-        <div class="electric-particle" style="width: 250px; height: 250px; bottom: 10%; left: 30%; animation-delay: 3s;"></div>
-        
         <svg class="electric-bolt" style="width: 200px; height: 200px; top: 15%; right: 20%; animation-delay: 2s;" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path d="M11 21l-1-8.4h-3.5l7-12.6 1 8.4h3.5l-7 12.6z" fill="var(--cs-primary)"/>
         </svg>
         <svg class="electric-bolt" style="width: 150px; height: 150px; bottom: 30%; left: 15%; animation-delay: 6s;" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M11 21l-1-8.4h-3.5l7-12.6 1 8.4h3.5l-7 12.6z" fill="var(--cs-primary)"/>
+        </svg>
+        <svg class="electric-bolt" style="width: 180px; height: 180px; top: 40%; left: 10%; animation-delay: 4s;" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M11 21l-1-8.4h-3.5l7-12.6 1 8.4h3.5l-7 12.6z" fill="var(--cs-primary)"/>
+        </svg>
+        <svg class="electric-bolt" style="width: 120px; height: 120px; bottom: 15%; right: 25%; animation-delay: 1s;" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M11 21l-1-8.4h-3.5l7-12.6 1 8.4h3.5l-7 12.6z" fill="var(--cs-primary)"/>
+        </svg>
+        <svg class="electric-bolt" style="width: 160px; height: 160px; top: 25%; left: 30%; animation-delay: 3s;" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path d="M11 21l-1-8.4h-3.5l7-12.6 1 8.4h3.5l-7 12.6z" fill="var(--cs-primary)"/>
         </svg>
     </div>

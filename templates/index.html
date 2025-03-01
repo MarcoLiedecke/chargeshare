@@ -102,45 +102,52 @@
     font-weight: 800;
     color: var(--cs-dark);
     margin-bottom: 16px;
+    position: relative;
+    display: inline-block;
+}
+
+.section-header h2:after {
+    content: '';
+    position: absolute;
+    width: 60px;
+    height: 4px;
+    background: linear-gradient(90deg, var(--cs-primary), var(--cs-primary-light));
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 2px;
 }
 
 .section-header p {
     font-size: 1.25rem;
     color: var(--cs-gray-800);
     max-width: 700px;
-    margin: 0 auto;
+    margin: 24px auto 0;
 }
 
-.feature-card {
-    height: 100%;
-    padding: 40px 32px;
-    text-align: center;
-    background-color: white;
+.features .card {
+    transition: all 0.3s ease;
+    overflow: hidden;
+    border-radius: 12px;
 }
 
-.feature-icon {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 80px;
-    height: 80px;
-    border-radius: 24px;
-    margin-bottom: 24px;
-    background-color: var(--cs-gray-100);
-    color: var(--cs-primary);
-    font-size: 2rem;
+.features .card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.1) !important;
 }
 
-.feature-title {
-    font-size: 1.5rem;
-    margin-bottom: 16px;
-    font-weight: 700;
+.features .card-body {
+    transition: all 0.3s ease;
 }
 
-.feature-text {
-    color: var(--cs-gray-800);
-    font-size: 1rem;
-    margin-bottom: 0;
+.features .badge {
+    transition: all 0.3s ease;
+    font-weight: 500;
+    padding: 6px 12px;
+}
+
+.features .badge:hover {
+    transform: translateY(-2px);
 }
 
 /* How It Works */
@@ -587,58 +594,124 @@
         </div>
         
         <div class="row g-4">
-            <div class="col-lg-4 col-md-6">
-                <div class="card feature-card">
-                    <div class="feature-icon">
-                        <i class="bi bi-map-fill"></i>
+            <div class="col-lg-6 mb-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body p-0">
+                        <div class="row g-0 h-100">
+                            <div class="col-md-4 bg-primary text-white p-4 d-flex flex-column justify-content-center align-items-center">
+                                <i class="bi bi-map-fill display-2 mb-3"></i>
+                                <h3 class="h4 text-center mb-0">Find Ladestandere</h3>
+                            </div>
+                            <div class="col-md-8 p-4">
+                                <p class="mb-0">Find tilgængelige ladestandere i nærheden på vores interaktive kort. Filtrer efter type, effekt og tilgængelighed.</p>
+                                <div class="mt-3 d-flex gap-2">
+                                    <span class="badge bg-light text-primary">Kortvisning</span>
+                                    <span class="badge bg-light text-primary">Filterindstillinger</span>
+                                    <span class="badge bg-light text-primary">Ruteplanlægning</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <h3 class="feature-title">Find Ladestandere</h3>
-                    <p class="feature-text">Find tilgængelige ladestandere i nærheden på vores interaktive kort. Filtrer efter type, effekt og tilgængelighed.</p>
                 </div>
             </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="card feature-card">
-                    <div class="feature-icon">
-                        <i class="bi bi-cash-coin"></i>
+            
+            <div class="col-lg-6 mb-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body p-0">
+                        <div class="row g-0 h-100">
+                            <div class="col-md-4 bg-accent text-white p-4 d-flex flex-column justify-content-center align-items-center">
+                                <i class="bi bi-cash-coin display-2 mb-3"></i>
+                                <h3 class="h4 text-center mb-0">Tjen Penge</h3>
+                            </div>
+                            <div class="col-md-8 p-4">
+                                <p class="mb-0">Sæt dine egne priser og tilgængelighed. Få din ladestander til at arbejde for dig, når du ikke bruger den.</p>
+                                <div class="mt-3 d-flex gap-2">
+                                    <span class="badge bg-light text-accent">Fleksibel prissætning</span>
+                                    <span class="badge bg-light text-accent">Automatisk udbetaling</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <h3 class="feature-title">Tjen på Din Ladestander</h3>
-                    <p class="feature-text">Sæt dine egne priser og tilgængelighed. Få din ladestander til at arbejde for dig, når du ikke bruger den.</p>
                 </div>
             </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="card feature-card">
-                    <div class="feature-icon">
-                        <i class="bi bi-calendar-check-fill"></i>
+            
+            <div class="col-lg-6 mb-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body p-0">
+                        <div class="row g-0 h-100">
+                            <div class="col-md-4 bg-secondary text-white p-4 d-flex flex-column justify-content-center align-items-center">
+                                <i class="bi bi-calendar-check-fill display-2 mb-3"></i>
+                                <h3 class="h4 text-center mb-0">Nem Booking</h3>
+                            </div>
+                            <div class="col-md-8 p-4">
+                                <p class="mb-0">Book din ladetid i forvejen og vær sikker på at have en plads, når du har brug for det. Få notifikationer om din reservation.</p>
+                                <div class="mt-3 d-flex gap-2">
+                                    <span class="badge bg-light text-secondary">Kalenderintegration</span>
+                                    <span class="badge bg-light text-secondary">Notifikationer</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <h3 class="feature-title">Nem Reservation</h3>
-                    <p class="feature-text">Book din ladetid i forvejen og vær sikker på at have en plads, når du har brug for det. Få notifikationer om din reservation.</p>
                 </div>
             </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="card feature-card">
-                    <div class="feature-icon">
-                        <i class="bi bi-shield-check"></i>
+            
+            <div class="col-lg-6 mb-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body p-0">
+                        <div class="row g-0 h-100">
+                            <div class="col-md-4 bg-primary-dark text-white p-4 d-flex flex-column justify-content-center align-items-center">
+                                <i class="bi bi-shield-check display-2 mb-3"></i>
+                                <h3 class="h4 text-center mb-0">Sikker Betaling</h3>
+                            </div>
+                            <div class="col-md-8 p-4">
+                                <p class="mb-0">Verificerede brugere, sikre betalinger og pålidelige anmeldelser sikrer en tryg oplevelse for alle.</p>
+                                <div class="mt-3 d-flex gap-2">
+                                    <span class="badge bg-light text-primary-dark">Krypteret betaling</span>
+                                    <span class="badge bg-light text-primary-dark">Verificering</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <h3 class="feature-title">Sikker & Pålidelig</h3>
-                    <p class="feature-text">Verificerede brugere, sikre betalinger og pålidelige anmeldelser sikrer en tryg oplevelse for alle.</p>
                 </div>
             </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="card feature-card">
-                    <div class="feature-icon">
-                        <i class="bi bi-star-fill"></i>
+            
+            <div class="col-lg-6 mb-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body p-0">
+                        <div class="row g-0 h-100">
+                            <div class="col-md-4 bg-warning text-dark p-4 d-flex flex-column justify-content-center align-items-center">
+                                <i class="bi bi-star-fill display-2 mb-3"></i>
+                                <h3 class="h4 text-center mb-0">Anmeldelser</h3>
+                            </div>
+                            <div class="col-md-8 p-4">
+                                <p class="mb-0">Del dine oplevelser og se andres anmeldelser for at finde de bedste ladestandere i dit område.</p>
+                                <div class="mt-3 d-flex gap-2">
+                                    <span class="badge bg-light text-warning">Rating system</span>
+                                    <span class="badge bg-light text-warning">Kommentarer</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <h3 class="feature-title">Anmeldelser & Feedback</h3>
-                    <p class="feature-text">Del dine oplevelser og se andres anmeldelser for at finde de bedste ladestandere i dit område.</p>
                 </div>
             </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="card feature-card">
-                    <div class="feature-icon">
-                        <i class="bi bi-graph-up-arrow"></i>
+            
+            <div class="col-lg-6 mb-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body p-0">
+                        <div class="row g-0 h-100">
+                            <div class="col-md-4 bg-success text-white p-4 d-flex flex-column justify-content-center align-items-center">
+                                <i class="bi bi-graph-up-arrow display-2 mb-3"></i>
+                                <h3 class="h4 text-center mb-0">Statistik</h3>
+                            </div>
+                            <div class="col-md-8 p-4">
+                                <p class="mb-0">Følg med i din indtjening og se statistik over brugen af din ladestander direkte i appen.</p>
+                                <div class="mt-3 d-flex gap-2">
+                                    <span class="badge bg-light text-success">Indtjeningsrapporter</span>
+                                    <span class="badge bg-light text-success">Brugsmønstre</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <h3 class="feature-title">Spor Din Indtjening</h3>
-                    <p class="feature-text">Følg med i din indtjening og se statistik over brugen af din ladestander direkte i appen.</p>
                 </div>
             </div>
         </div>
@@ -650,96 +723,104 @@
     <div class="container">
         <div class="section-header">
             <h2>Sådan Virker Det</h2>
-            <p>ChargeShare er designet til at være nemt og intuitivt at bruge for både ladestanderrejere og elbilister</p>
+            <p>ChargeShare er designet til at være nemt og intuitivt at bruge for både ladestanderejere og elbilister</p>
         </div>
         
-        <div class="row mb-5">
-            <div class="col-lg-6 mb-4 mb-lg-0">
-                <div class="card p-4 h-100">
-                    <h3 class="h4 mb-4 text-primary">For Ladestanderejere</h3>
-                    <p>Del din private ladestander når du ikke bruger den, og tjen penge på din investering.</p>
-                    
-                    <div class="step-container mt-4">
-                        <div class="step">
-                            <div class="step-number">1</div>
-                            <div class="step-content">
-                                <div class="step-icon"><i class="bi bi-person-plus-fill"></i></div>
-                                <h4 class="step-title">Registrer & Tilføj Ladestander</h4>
-                                <p class="step-text">Opret en konto og tilføj information om din ladestander, inklusiv type, effekt, og placering.</p>
+        <div class="row g-4 mb-5">
+            <div class="col-lg-6">
+                <div class="card h-100">
+                    <div class="card-header p-3 bg-primary text-white">
+                        <h3 class="h4 m-0 d-flex align-items-center">
+                            <i class="bi bi-plug-fill me-2"></i>
+                            For Ladestanderejere
+                        </h3>
+                    </div>
+                    <div class="card-body p-3">
+                        <div class="d-flex align-items-center mb-4">
+                            <div class="d-flex justify-content-center align-items-center rounded-circle bg-primary text-white" style="width: 40px; height: 40px; flex-shrink: 0;">
+                                <i class="bi bi-lightning-charge-fill"></i>
+                            </div>
+                            <div class="ms-3">
+                                <h4 class="h5 mb-1">Del & Tjen</h4>
+                                <p class="mb-0">Del din ladestander når den ikke er i brug, og tjen penge på din investering.</p>
                             </div>
                         </div>
                         
-                        <div class="step">
-                            <div class="step-number">2</div>
-                            <div class="step-content">
-                                <div class="step-icon"><i class="bi bi-calendar2-week"></i></div>
-                                <h4 class="step-title">Angiv Tilgængelighed</h4>
-                                <p class="step-text">Indstil hvornår din ladestander er tilgængelig for andre, og sæt din egen timepris.</p>
-                            </div>
-                        </div>
-                        
-                        <div class="step">
-                            <div class="step-number">3</div>
-                            <div class="step-content">
-                                <div class="step-icon"><i class="bi bi-check-circle-fill"></i></div>
-                                <h4 class="step-title">Godkend Anmodninger</h4>
-                                <p class="step-text">Gennemgå og godkend reservationsanmodninger fra interesserede elbilister.</p>
-                            </div>
-                        </div>
-                        
-                        <div class="step">
-                            <div class="step-number">4</div>
-                            <div class="step-content">
-                                <div class="step-icon"><i class="bi bi-cash"></i></div>
-                                <h4 class="step-title">Modtag Betaling</h4>
-                                <p class="step-text">Få betalinger direkte til din konto hver måned for den tid, din ladestander er blevet brugt.</p>
-                            </div>
-                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item border-0 ps-0 py-2 d-flex">
+                                <div class="bg-primary rounded-circle text-white d-flex justify-content-center align-items-center me-3" style="width: 30px; height: 30px; flex-shrink: 0;">1</div>
+                                <div>
+                                    <strong>Tilføj din ladestander</strong> - Registrer type, effekt og placering
+                                </div>
+                            </li>
+                            <li class="list-group-item border-0 ps-0 py-2 d-flex">
+                                <div class="bg-primary rounded-circle text-white d-flex justify-content-center align-items-center me-3" style="width: 30px; height: 30px; flex-shrink: 0;">2</div>
+                                <div>
+                                    <strong>Angiv tilgængelighed</strong> - Bestem, hvornår andre kan bruge den
+                                </div>
+                            </li>
+                            <li class="list-group-item border-0 ps-0 py-2 d-flex">
+                                <div class="bg-primary rounded-circle text-white d-flex justify-content-center align-items-center me-3" style="width: 30px; height: 30px; flex-shrink: 0;">3</div>
+                                <div>
+                                    <strong>Godkend bookinger</strong> - Gennemgå og accepter reservationer
+                                </div>
+                            </li>
+                            <li class="list-group-item border-0 ps-0 py-2 d-flex">
+                                <div class="bg-primary rounded-circle text-white d-flex justify-content-center align-items-center me-3" style="width: 30px; height: 30px; flex-shrink: 0;">4</div>
+                                <div>
+                                    <strong>Få betaling</strong> - Modtag penge direkte til din konto
+                                </div>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
             
             <div class="col-lg-6">
-                <div class="card p-4 h-100">
-                    <h3 class="h4 mb-4" style="color: var(--cs-secondary)">For Elbilister</h3>
-                    <p>Find og book private ladestandere nær dig, når du har brug for opladning.</p>
-                    
-                    <div class="step-container mt-4">
-                        <div class="step">
-                            <div class="step-number">1</div>
-                            <div class="step-content">
-                                <div class="step-icon"><i class="bi bi-person-fill"></i></div>
-                                <h4 class="step-title">Opret Konto</h4>
-                                <p class="step-text">Registrer dig som bruger og tilføj din betalingsmetode for hurtig og nem booking.</p>
+                <div class="card h-100">
+                    <div class="card-header p-3 bg-secondary text-white">
+                        <h3 class="h4 m-0 d-flex align-items-center">
+                            <i class="bi bi-ev-station-fill me-2"></i>
+                            For Elbilister
+                        </h3>
+                    </div>
+                    <div class="card-body p-3">
+                        <div class="d-flex align-items-center mb-4">
+                            <div class="d-flex justify-content-center align-items-center rounded-circle bg-secondary text-white" style="width: 40px; height: 40px; flex-shrink: 0;">
+                                <i class="bi bi-search"></i>
+                            </div>
+                            <div class="ms-3">
+                                <h4 class="h5 mb-1">Find & Oplad</h4>
+                                <p class="mb-0">Find private ladestandere nær dig, når du har brug for opladning.</p>
                             </div>
                         </div>
                         
-                        <div class="step">
-                            <div class="step-number">2</div>
-                            <div class="step-content">
-                                <div class="step-icon"><i class="bi bi-geo-alt-fill"></i></div>
-                                <h4 class="step-title">Find Ladestandere</h4>
-                                <p class="step-text">Brug kortet til at finde tilgængelige ladestandere i nærheden eller langs din rute.</p>
-                            </div>
-                        </div>
-                        
-                        <div class="step">
-                            <div class="step-number">3</div>
-                            <div class="step-content">
-                                <div class="step-icon"><i class="bi bi-calendar-check"></i></div>
-                                <h4 class="step-title">Book en Tid</h4>
-                                <p class="step-text">Vælg din ønskede ladetid og reservér din plads med få klik.</p>
-                            </div>
-                        </div>
-                        
-                        <div class="step">
-                            <div class="step-number">4</div>
-                            <div class="step-content">
-                                <div class="step-icon"><i class="bi bi-lightning-charge"></i></div>
-                                <h4 class="step-title">Oplad & Betal</h4>
-                                <p class="step-text">Ankom og oplad din bil. Betaling trækkes automatisk efter opladningen.</p>
-                            </div>
-                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item border-0 ps-0 py-2 d-flex">
+                                <div class="bg-secondary rounded-circle text-white d-flex justify-content-center align-items-center me-3" style="width: 30px; height: 30px; flex-shrink: 0;">1</div>
+                                <div>
+                                    <strong>Opret konto</strong> - Registrer dig og tilføj betalingsmetode
+                                </div>
+                            </li>
+                            <li class="list-group-item border-0 ps-0 py-2 d-flex">
+                                <div class="bg-secondary rounded-circle text-white d-flex justify-content-center align-items-center me-3" style="width: 30px; height: 30px; flex-shrink: 0;">2</div>
+                                <div>
+                                    <strong>Find ladestandere</strong> - Søg i nærheden eller langs din rute
+                                </div>
+                            </li>
+                            <li class="list-group-item border-0 ps-0 py-2 d-flex">
+                                <div class="bg-secondary rounded-circle text-white d-flex justify-content-center align-items-center me-3" style="width: 30px; height: 30px; flex-shrink: 0;">3</div>
+                                <div>
+                                    <strong>Book tid</strong> - Reservér din opladningstid med få klik
+                                </div>
+                            </li>
+                            <li class="list-group-item border-0 ps-0 py-2 d-flex">
+                                <div class="bg-secondary rounded-circle text-white d-flex justify-content-center align-items-center me-3" style="width: 30px; height: 30px; flex-shrink: 0;">4</div>
+                                <div>
+                                    <strong>Oplad & betal</strong> - Automatisk betaling efter opladning
+                                </div>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
