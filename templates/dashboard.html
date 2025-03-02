@@ -6,13 +6,13 @@
 /* Dashboard Layout */
 .dashboard-container {
     padding: 40px 0;
-    background-color: var(--cs-gray-100);
+    background-color: var(--cs-bg-primary);
     min-height: 100vh;
 }
 
 /* Sidebar */
 .sidebar {
-    background-color: white;
+    background-color: var(--cs-card-bg);
     border-radius: var(--cs-border-radius);
     box-shadow: var(--cs-shadow);
     position: sticky;
@@ -24,7 +24,7 @@
     text-align: center;
     margin-bottom: 24px;
     padding-bottom: 24px;
-    border-bottom: 1px solid var(--cs-gray-200);
+    border-bottom: 1px solid var(--cs-border-color);
 }
 
 .user-avatar {
@@ -76,13 +76,13 @@
     gap: 12px;
     padding: 12px 16px;
     border-radius: var(--cs-border-radius-sm);
-    color: var(--cs-gray-800);
+    color: var(--cs-text-secondary);
     text-decoration: none;
     transition: var(--cs-transition);
 }
 
 .sidebar-menu-link:hover {
-    background-color: var(--cs-gray-100);
+    background-color: var(--cs-bg-primary);
     color: var(--cs-primary);
 }
 
@@ -97,7 +97,7 @@
 
 /* Dashboard Content */
 .dashboard-card {
-    background-color: white;
+    background-color: var(--cs-card-bg);
     border-radius: var(--cs-border-radius);
     box-shadow: var(--cs-shadow);
     padding: 24px;
@@ -127,7 +127,7 @@
 .stats-card {
     padding: 24px;
     border-radius: var(--cs-border-radius);
-    background-color: white;
+    background-color: var(--cs-card-bg);
     box-shadow: var(--cs-shadow);
     position: relative;
     overflow: hidden;
@@ -165,7 +165,7 @@
 
 .stats-title {
     font-size: 1rem;
-    color: var(--cs-gray-800);
+    color: var(--cs-text-secondary);
     margin-bottom: 8px;
 }
 
@@ -220,7 +220,7 @@
 }
 
 .table-container {
-    background-color: white;
+    background-color: var(--cs-card-bg);
     border-radius: var(--cs-border-radius);
     box-shadow: var(--cs-shadow);
     overflow: hidden;
@@ -232,10 +232,10 @@
 }
 
 .dashboard-table th {
-    background-color: var(--cs-gray-100);
+    background-color: var(--cs-bg-primary);
     font-weight: 600;
     padding: 12px 16px;
-    border-bottom: 1px solid var(--cs-gray-200);
+    border-bottom: 1px solid var(--cs-border-color);
 }
 
 .dashboard-table td {
@@ -282,7 +282,7 @@
 
 /* Reservation Calendar */
 .calendar-container {
-    background-color: white;
+    background-color: var(--cs-card-bg);
     border-radius: var(--cs-border-radius);
     box-shadow: var(--cs-shadow);
     padding: 24px;
@@ -314,8 +314,8 @@
     align-items: center;
     justify-content: center;
     border-radius: var(--cs-border-radius-sm);
-    background-color: var(--cs-gray-100);
-    color: var(--cs-gray-800);
+    background-color: var(--cs-bg-primary);
+    color: var(--cs-text-secondary);
     border: none;
     cursor: pointer;
     transition: var(--cs-transition);
@@ -341,13 +341,13 @@
     text-align: center;
     font-weight: 600;
     padding: 8px;
-    color: var(--cs-gray-800);
+    color: var(--cs-text-secondary);
 }
 
 .calendar-date-cell {
     aspect-ratio: 1/1;
     border-radius: var(--cs-border-radius-sm);
-    border: 1px solid var(--cs-gray-200);
+    border: 1px solid var(--cs-border-color);
     padding: 8px;
     cursor: pointer;
     transition: var(--cs-transition);
@@ -358,7 +358,7 @@
 
 .calendar-date-cell:hover {
     border-color: var(--cs-primary-light);
-    background-color: var(--cs-gray-100);
+    background-color: var(--cs-bg-primary);
 }
 
 .calendar-date-number {
@@ -390,7 +390,7 @@
 
 .calendar-date-event-more {
     font-size: 0.75rem;
-    color: var(--cs-gray-800);
+    color: var(--cs-text-secondary);
     text-align: center;
 }
 
@@ -403,7 +403,7 @@
 
 .activity-item {
     padding: 16px 0;
-    border-bottom: 1px solid var(--cs-gray-200);
+    border-bottom: 1px solid var(--cs-border-color);
     display: flex;
     align-items: flex-start;
     gap: 16px;
@@ -450,7 +450,7 @@
 
 .activity-time {
     font-size: 0.875rem;
-    color: var(--cs-gray-800);
+    color: var(--cs-text-secondary);
 }
 
 .activity-action {
@@ -484,39 +484,78 @@
 
 .marker-popup {
     font-family: 'Inter', sans-serif;
+    background-color: var(--cs-card-bg);
+    color: var(--cs-text-primary);
+    border-radius: var(--cs-border-radius-sm);
+    box-shadow: var(--cs-shadow);
+    padding: 16px;
+    width: 250px;
 }
 
 .marker-popup h5 {
-    font-size: 1rem;
+    font-size: 1.125rem;
     font-weight: 600;
-    margin-bottom: 8px;
+    margin-bottom: 12px;
+    color: var(--cs-text-primary);
 }
 
 .marker-popup p {
     margin-bottom: 8px;
+    color: var(--cs-text-secondary);
 }
 
 .marker-popup .marker-type {
     display: inline-block;
     font-size: 0.75rem;
-    padding: 2px 8px;
+    padding: 4px 10px;
     background-color: var(--cs-primary-light);
     color: var(--cs-primary-dark);
     border-radius: 100px;
-    margin-bottom: 8px;
+    margin-bottom: 12px;
+    font-weight: 500;
 }
 
 .marker-popup .marker-power {
     font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 10px;
+}
+
+.marker-popup .marker-location {
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    margin-bottom: 10px;
 }
 
 .marker-popup .marker-price {
     color: var(--cs-primary);
-    font-weight: 600;
+    font-weight: 700;
+    font-size: 1.125rem;
+    margin: 12px 0;
+}
+
+.marker-popup .marker-availability {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 10px;
+    font-size: 0.875rem;
+}
+
+.marker-popup .marker-rating {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 14px;
+    color: var(--cs-accent);
 }
 
 .marker-popup .btn {
     margin-top: 8px;
+    width: 100%;
 }
 
 /* Responsive Adjustments */
@@ -729,6 +768,19 @@
                                 <span>0.2 højere end sidste måned</span>
                             </div>
                         </div>
+                    </div>
+                    
+                    <!-- Map Container -->
+                    <div class="section-header">
+                        <h2 class="section-title">
+                            <i class="bi bi-geo-alt-fill text-primary me-2"></i>
+                            Find ladestandere i nærheden
+                        </h2>
+                        <a href="#" class="btn btn-sm btn-outline-primary">Se alle</a>
+                    </div>
+                    
+                    <div class="map-container mb-4" id="map">
+                        <!-- Map will be loaded here -->
                     </div>
                     
                     <!-- Recent Activity -->
@@ -2273,6 +2325,10 @@
 <!-- Include Leaflet.js for the map -->
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+<!-- Include Leaflet MarkerCluster for better performance with many markers -->
+<script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -2313,7 +2369,7 @@
         });
         
         // Initialize map for the findchargers section
-        const map = L.map('map').setView([55.6761, 12.5683], 13);
+        const map = L.map('map').setView([55.6761, 12.5683], 11);
         
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
@@ -2321,9 +2377,27 @@
         }).addTo(map);
         
         // Custom marker icon
-        const createMarkerIcon = () => {
+        const createMarkerIcon = (type) => {
+            let color;
+            switch(type) {
+                case 'Type 2':
+                    color = '#0EAD69'; // Primary color
+                    break;
+                case 'CCS':
+                    color = '#2563EB'; // Secondary color
+                    break;
+                case 'CHAdeMO':
+                    color = '#F97316'; // Accent color
+                    break;
+                case 'Tesla':
+                    color = '#8e44ad'; // Purple for Tesla
+                    break;
+                default:
+                    color = '#0EAD69';
+            }
+            
             return L.divIcon({
-                html: `<div class="marker-icon"><i class="bi bi-lightning-charge-fill"></i></div>`,
+                html: `<div class="marker-icon" style="background-color: ${color};"><i class="bi bi-lightning-charge-fill"></i></div>`,
                 className: '',
                 iconSize: [40, 40],
                 iconAnchor: [20, 40],
@@ -2331,31 +2405,147 @@
             });
         };
         
-        // Sample charger data
-        const chargers = [
-            { id: 1, name: 'Central Station Charger', lat: 55.6728, lng: 12.5646, type: 'Type 2', power: 22, price: 45 },
-            { id: 2, name: 'Nørreport Fast Charger', lat: 55.6833, lng: 12.5714, type: 'CCS', power: 150, price: 95 },
-            { id: 3, name: 'Østerbro Residential', lat: 55.6986, lng: 12.5542, type: 'Type 2', power: 11, price: 32 },
-            { id: 4, name: 'Amager Beach Charger', lat: 55.6584, lng: 12.6318, type: 'CHAdeMO', power: 50, price: 65 },
-            { id: 5, name: 'Frederiksberg Gardens', lat: 55.6722, lng: 12.5258, type: 'Tesla', power: 16.5, price: 55 }
-        ];
+        // Generate random chargers for Copenhagen
+        function generateRandomChargers(count) {
+            const chargerTypes = ['Type 2', 'CCS', 'CHAdeMO', 'Tesla'];
+            const powerRanges = {
+                'Type 2': [3.7, 7.4, 11, 22],
+                'CCS': [50, 100, 150, 350],
+                'CHAdeMO': [50, 100],
+                'Tesla': [11, 16.5, 150, 250]
+            };
+            const neighborhoods = [
+                'Nørrebro', 'Østerbro', 'Vesterbro', 'Frederiksberg', 'Amager', 
+                'Valby', 'Vanløse', 'Brønshøj', 'Husum', 'Islands Brygge', 
+                'Christianshavn', 'Sydhavn', 'Nørreport', 'Hellerup', 'Gentofte',
+                'Lyngby', 'Hvidovre', 'Rødovre', 'Glostrup', 'Ballerup'
+            ];
+            const prefixes = [
+                'Hurtig', 'Lynhurtig', 'Super', 'Hjemme', 'Privat', 'Grøn', 'Elbil',
+                'Smart', 'Eco', 'Public', 'Fast', 'Express', 'Easy', 'Central',
+                'Storbys', 'Lokal', 'Resident', 'EV', 'City', 'Urban'
+            ];
+            const suffixes = [
+                'Charger', 'Lader', 'Station', 'Punkt', 'Spot', 'Hub', 
+                'Opladning', 'Ladestander', 'Power', 'Charging', 'Oplader'
+            ];
+            
+            // Copenhagen center
+            const centerLat = 55.6761;
+            const centerLng = 12.5683;
+            
+            const chargers = [];
+            
+            for (let i = 0; i < count; i++) {
+                // Random position within ~10km of Copenhagen center
+                const lat = centerLat + (Math.random() - 0.5) * 0.12;
+                const lng = centerLng + (Math.random() - 0.5) * 0.2;
+                
+                const type = chargerTypes[Math.floor(Math.random() * chargerTypes.length)];
+                const powers = powerRanges[type];
+                const power = powers[Math.floor(Math.random() * powers.length)];
+                
+                // Base price on power
+                let basePrice;
+                if (power <= 11) basePrice = 25 + Math.random() * 15;
+                else if (power <= 50) basePrice = 40 + Math.random() * 25;
+                else if (power <= 150) basePrice = 65 + Math.random() * 30;
+                else basePrice = 90 + Math.random() * 40;
+                
+                const price = Math.round(basePrice);
+                
+                const neighborhood = neighborhoods[Math.floor(Math.random() * neighborhoods.length)];
+                const prefix = prefixes[Math.floor(Math.random() * prefixes.length)];
+                const suffix = suffixes[Math.floor(Math.random() * suffixes.length)];
+                
+                const name = `${prefix} ${neighborhood} ${suffix}`;
+                
+                // Random rating between 3.5 and 5.0
+                const rating = (3.5 + Math.random() * 1.5).toFixed(1);
+                
+                // Random number of reviews between 1 and 30
+                const reviewCount = Math.floor(1 + Math.random() * 29);
+                
+                // Random availability - true for most (80%)
+                const available = Math.random() > 0.2;
+                
+                chargers.push({
+                    id: i + 1,
+                    name,
+                    lat,
+                    lng,
+                    type,
+                    power,
+                    price,
+                    rating,
+                    reviewCount,
+                    available
+                });
+            }
+            
+            return chargers;
+        }
+        
+        // Generate 500 random chargers
+        const chargers = generateRandomChargers(500);
+        
+        // Create marker clusters for better performance
+        const markers = L.markerClusterGroup({
+            maxClusterRadius: 50,
+            iconCreateFunction: function(cluster) {
+                return L.divIcon({
+                    html: `<div style="background-color: var(--cs-primary); width: 46px; height: 46px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">${cluster.getChildCount()}</div>`,
+                    className: '',
+                    iconSize: [46, 46]
+                });
+            }
+        });
         
         // Add markers to map
         chargers.forEach(charger => {
-            const marker = L.marker([charger.lat, charger.lng], { icon: createMarkerIcon() }).addTo(map);
+            const marker = L.marker([charger.lat, charger.lng], { icon: createMarkerIcon(charger.type) });
+            
+            const availabilityStatus = charger.available ? 
+                '<span style="color: #2ecc71;"><i class="bi bi-check-circle-fill"></i> Tilgængelig nu</span>' : 
+                '<span style="color: #e74c3c;"><i class="bi bi-x-circle-fill"></i> Optaget</span>';
             
             const popupContent = `
                 <div class="marker-popup">
-                    <h5>${charger.name}</h5>
                     <span class="marker-type">${charger.type}</span>
-                    <p class="marker-power">Effekt: ${charger.power} kW</p>
-                    <p class="marker-price">Pris: kr ${charger.price}/time</p>
-                    <button class="btn btn-sm btn-primary">Book nu</button>
+                    <h5>${charger.name}</h5>
+                    
+                    <div class="marker-location">
+                        <i class="bi bi-geo-alt"></i>
+                        <span>Københavnsområdet</span>
+                    </div>
+                    
+                    <div class="marker-power">
+                        <i class="bi bi-lightning-charge"></i>
+                        <span>${charger.power} kW</span>
+                    </div>
+                    
+                    <div class="marker-rating">
+                        <i class="bi bi-star-fill"></i>
+                        <span>${charger.rating}/5 (${charger.reviewCount} anmeldelser)</span>
+                    </div>
+                    
+                    <div class="marker-availability">
+                        ${availabilityStatus}
+                    </div>
+                    
+                    <div class="marker-price">kr ${charger.price}/time</div>
+                    
+                    <button class="btn btn-primary">
+                        <i class="bi bi-calendar-plus me-2"></i>Book nu
+                    </button>
                 </div>
             `;
             
             marker.bindPopup(popupContent);
+            markers.addLayer(marker);
         });
+        
+        map.addLayer(markers);
         
         // Geolocation for the add charger form
         document.getElementById('getLocationBtn').addEventListener('click', function() {
