@@ -378,6 +378,12 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link {% if request.path == url_for('about') %}active{% endif %}" href="{{ url_for('about') }}" style="color: white; position: relative;">
+                            About Us
+                            {% if request.path == url_for('about') %}<span style="position: absolute; bottom: -5px; left: 50%; transform: translateX(-50%); width: 30%; height: 3px; background-color: white; border-radius: 4px;"></span>{% endif %}
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="#how-it-works" style="color: white; position: relative;">
                             How It Works
                             <span id="how-it-works-dot" style="position: absolute; bottom: -5px; left: 50%; transform: translateX(-50%); width: 30%; height: 3px; background-color: white; border-radius: 4px; display: none;"></span>
@@ -440,7 +446,7 @@
                         <li><a href="{{ url_for('index') }}">Home</a></li>
                         <li><a href="#how-it-works">How It Works</a></li>
                         <li><a href="#features">Features</a></li>
-                        <li><a href="#">About Us</a></li>
+                        <li><a href="{{ url_for('about') }}">About Us</a></li>
                         <li><a href="#">Contact</a></li>
                     </ul>
                 </div>

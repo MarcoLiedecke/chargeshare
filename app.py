@@ -32,6 +32,10 @@ def load_user(user_id):
 def index():
     return render_template('index.html')
 
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
 # User authentication routes
 @app.route('/register', methods=['GET', 'POST'])
 def register():
