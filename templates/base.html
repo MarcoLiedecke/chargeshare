@@ -139,13 +139,11 @@
         }
         
         .nav-link:hover {
-            background-color: var(--cs-gray-100);
-            color: var(--cs-primary);
+            color: rgba(255, 255, 255, 0.8);
         }
         
         .nav-link.active {
-            background-color: var(--cs-primary-light);
-            color: var(--cs-primary-dark);
+            color: white;
         }
         
         /* Buttons */
@@ -359,11 +357,11 @@
     </div>
 
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-light">
+    <nav class="navbar navbar-expand-lg" style="background-color: var(--cs-primary);">
         <div class="container">
-            <a class="navbar-brand" href="{{ url_for('index') }}">
+            <a class="navbar-brand" href="{{ url_for('index') }}" style="color: white;">
                 <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M11 1L8 12H14L13 23L23 8H15L19 1H11Z" fill="var(--cs-primary)" stroke="var(--cs-primary-dark)" stroke-width="1.5"/>
+                    <path d="M11 1L8 12H14L13 23L23 8H15L19 1H11Z" fill="white" stroke="white" stroke-width="1.5"/>
                 </svg>
                 ChargeShare
             </a>
@@ -374,21 +372,21 @@
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     {% block nav_items %}
                     <li class="nav-item">
-                        <a class="nav-link {% if request.path == url_for('index') %}active{% endif %}" href="{{ url_for('index') }}">
-                            <i class="bi bi-house-fill"></i>
+                        <a class="nav-link {% if request.path == url_for('index') %}active{% endif %}" href="{{ url_for('index') }}" style="color: white; position: relative;">
                             Home
+                            {% if request.path == url_for('index') %}<span style="position: absolute; bottom: -5px; left: 50%; transform: translateX(-50%); width: 6px; height: 6px; background-color: white; border-radius: 50%;"></span>{% endif %}
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#how-it-works">
-                            <i class="bi bi-lightning-charge-fill"></i>
+                        <a class="nav-link" href="#how-it-works" style="color: white; position: relative;">
                             How It Works
+                            <span id="how-it-works-dot" style="position: absolute; bottom: -5px; left: 50%; transform: translateX(-50%); width: 6px; height: 6px; background-color: white; border-radius: 50%; display: none;"></span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#features">
-                            <i class="bi bi-star-fill"></i>
+                        <a class="nav-link" href="#features" style="color: white; position: relative;">
                             Features
+                            <span id="features-dot" style="position: absolute; bottom: -5px; left: 50%; transform: translateX(-50%); width: 6px; height: 6px; background-color: white; border-radius: 50%; display: none;"></span>
                         </a>
                     </li>
                     {% endblock %}
