@@ -974,7 +974,9 @@
     // Initialize map when document is loaded
     document.addEventListener('DOMContentLoaded', function() {
         // Create map centered on Copenhagen, Denmark
-        const map = L.map('map').setView([55.6761, 12.5683], 11);
+        const map = L.map('map', {
+            zoomControl: false  // Remove zoom in/out buttons
+        }).setView([55.6761, 12.5683], 11);
         
         // Add OpenStreetMap tiles
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {

@@ -203,9 +203,9 @@
 {% block content %}
 <div class="register-page">
     <div class="container">
-        <div class="register-card card">
+        <div class="register-card card mx-auto">
             <div class="card-body p-4 p-md-5">
-                <div class="register-header">
+                <div class="register-header text-center">
                     <svg width="60" height="60" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M11 1L8 12H14L13 23L23 8H15L19 1H11Z" fill="var(--cs-primary)" stroke="var(--cs-primary-dark)" stroke-width="1"/>
                     </svg>
@@ -222,15 +222,15 @@
                 {% endwith %}
                 
                 <form method="POST" id="register-form">
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
+                    <div class="row justify-content-center">
+                        <div class="col-md-10 mb-3">
                             <label for="name" class="form-label">Fulde navn</label>
                             <div class="input-group">
                                 <span class="input-group-text bg-white"><i class="bi bi-person"></i></span>
                                 <input type="text" class="form-control" id="name" name="name" placeholder="Dit fulde navn" required>
                             </div>
                         </div>
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-10 mb-3">
                             <label for="email" class="form-label">E-mail</label>
                             <div class="input-group">
                                 <span class="input-group-text bg-white"><i class="bi bi-envelope"></i></span>
@@ -240,8 +240,8 @@
                         </div>
                     </div>
                     
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
+                    <div class="row justify-content-center">
+                        <div class="col-md-10 mb-3">
                             <label for="password" class="form-label">Adgangskode</label>
                             <div class="input-group">
                                 <span class="input-group-text bg-white"><i class="bi bi-lock"></i></span>
@@ -256,7 +256,7 @@
                             <div class="password-strength-text"></div>
                             <div class="invalid-feedback" id="password-feedback">Adgangskoden skal være mindst 8 tegn lang.</div>
                         </div>
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-10 mb-3">
                             <label for="confirm_password" class="form-label">Bekræft adgangskode</label>
                             <div class="input-group">
                                 <span class="input-group-text bg-white"><i class="bi bi-lock-fill"></i></span>
@@ -266,12 +266,16 @@
                         </div>
                     </div>
                     
-                    <div class="mb-4 form-check">
-                        <input type="checkbox" class="form-check-input" id="terms" name="terms" required>
-                        <label class="form-check-label" for="terms">Jeg accepterer <a href="#" style="color: var(--cs-primary);">vilkår og betingelser</a></label>
+                    <div class="row justify-content-center">
+                        <div class="col-md-10">
+                            <div class="mb-4 form-check">
+                                <input type="checkbox" class="form-check-input" id="terms" name="terms" required>
+                                <label class="form-check-label" for="terms">Jeg accepterer <a href="#" style="color: var(--cs-primary);">vilkår og betingelser</a></label>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary register-btn">Opret konto</button>
+                        </div>
                     </div>
-                    
-                    <button type="submit" class="btn btn-primary register-btn">Opret konto</button>
                 </form>
                 
                 <div class="separator">Eller tilmeld med</div>
